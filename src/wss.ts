@@ -7,6 +7,7 @@ import {Queue} from "./queue";
 const PORT = 8001;
 const wss = new WebSocket.Server({host: "0.0.0.0", port: PORT});
 const queue = new Queue();
+queue.mock();
 
 wss.on('connection', (ws) => {
   console.log('New client');

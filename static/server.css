@@ -1,0 +1,44 @@
+* {
+    transition: all 0.6s;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    display: grid;
+    grid-template-areas:
+            "nav nav"
+            "draw queue"
+            "draw score";
+    grid-template-rows: 60px 1fr 1fr;
+    grid-template-columns: 1fr 250px;
+}
+
+.nav {
+    grid-area: nav;
+}
+
+.draw {
+    grid-area: draw;
+}
+
+.queue {
+    grid-area: queue;
+}
+
+.score {
+    grid-area: score;
+}
+
+.highscore-content, .score-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.score-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

@@ -67,40 +67,6 @@ router.on(['OPTIONS', 'GET'], '/version', (req: Req<any>, res: Res<any>, params:
   makeResponseOk(res, (JSON.parse(fs.readFileSync('.package.json', 'utf8')) ?? {version: "???"}).version);
 });
 
-const staticRoute = (req: Req<any>, res: Res<any>, params: { [k: string]: string | undefined }) => {
-  const ext = params['resource']?.substring(params.resource.lastIndexOf('.') + 1);
-  let type = ext === 'html' ? 'text/html' :
-    ext === 'js' ? 'text/javascript' :
-      ext === 'css' ? 'text/css' :
-        ext === 'json' ? 'application/json' :
-          'text/plain';
-  let fileContents;
-  try {
-    console.log(`Try Serving ${params.resource}, type: ${type}`);
-    fileContents = fs.readFileSync(`./static/${params.resource}`, 'utf8');
-    console.log(`Serving ${params.resource}, type: ${type}`);
-  } catch (e) {
-    fileContents = fs.readFileSync(`./static/404.html`, 'utf8');
-    type = 'text/html';
-    console.log(`Serving 404.html, type: ${type}`);
-  }
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'Content-Type, Access-Control-Allow-Origin, Access-Control-Allow-Methods, Authorization, File-Content-Type'
-  );
-  res.setHeader('Content-Type', type);
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', '*');
-  res.writeHead(200);
-  res.end(fileContents);
-}
-
-router.on('GET', '/', (req: Req<any>, res: Res<any>, params: { [k: string]: string | undefined }) => {
-  return staticRoute(req, res, {...params, resource: 'player.html'});
-});
-
-router.on('GET', '/:resource', staticRoute);
-
 const server = http.createServer((req, res) => {
   router.lookup(req, res);
 });
