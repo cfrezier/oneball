@@ -3,6 +3,9 @@ export type Segment = [[number, number], [number, number]];
 export type Vector = [number, number];
 
 export class Geometry {
+  static GLOBAL_HEIGHT = 1200;
+  static GLOBAL_WIDTH = 1200;
+
   static segmentsIntersects(s0: Segment, s1: Segment) {
     const dx0 = s0[1][0] - s0[0][0];
     const dx1 = s1[1][0] - s1[0][0];

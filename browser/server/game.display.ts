@@ -53,6 +53,7 @@ export class GameDisplay {
       );
       this.context.fillStyle = gradient;
       this.context.fill();
+      this.context.strokeStyle = ball.color;
       this.context.stroke();
     });
   }

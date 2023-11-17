@@ -20,9 +20,12 @@ ws.addEventListener("message", function (event) {
       break;
     case 'queue-state':
       queue.update(payload);
+      break;
+    case 'game-score':
       score.updateScore(payload);
       break;
     case 'score-state':
       score.updateHighScore(payload);
+      break;
   }
 });

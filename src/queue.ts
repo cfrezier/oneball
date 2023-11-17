@@ -86,6 +86,7 @@ export class Queue {
     this.sendGameToServer();
     if (!this.currentGame!.finished) {
       setTimeout(() => this.executeGame(), GAME_LOOP_MS);
+      this.sendCurrentScoreToServer();
     } else {
       console.log("Game finished.");
       this.currentGame!.reward();
@@ -111,10 +112,17 @@ export class Queue {
     this.servers.forEach((ws) => ws?.send(state));
   }
 
+  private sendCurrentScoreToServer() {
+    const state = JSON.stringify({
+      type: 'game-score',
+      state: {players: (this.currentGame?.players ?? []).map(player => player.state())}
+    });
+    this.servers.forEach((ws) => ws?.send(state));
+  }
+
   private sendHighScoreToServer() {
     const state = JSON.stringify({type: 'score-state', state: this.state()});
     this.servers.forEach((ws) => ws?.send(state));
-    return this.state();
   }
 
   private state() {

@@ -1,10 +1,8 @@
 import {WebSocket} from "ws";
 import {v4 as uuid} from 'uuid';
 import {colors} from "./colors";
-import {Segment} from "./geometry";
+import {Geometry, Segment} from "./geometry";
 import {Ball} from "./ball";
-
-const SQUARE_SIDE_SIZE = 50;
 
 const START_BLOCK_SIZE = 40;
 const MIN_BLOCK_SIZE = 25;
@@ -50,10 +48,10 @@ export class Player {
     this.startAngle = 2 * Math.PI * idx / arr.length;
     this.endAngle = 2 * Math.PI * (idx + 1) / arr.length;
     this.defenseLine = [
-      [(0.5 + Math.cos(this.startAngle) / 2) * SQUARE_SIDE_SIZE,
-        (0.5 + Math.sin(this.startAngle) / 2) * SQUARE_SIDE_SIZE],
-      [(0.5 + Math.cos(this.endAngle) / 2) * SQUARE_SIDE_SIZE,
-        (0.5 + Math.sin(this.endAngle) / 2) * SQUARE_SIDE_SIZE]
+      [(0.5 + Math.cos(this.startAngle) / 2) * Geometry.GLOBAL_WIDTH,
+        (0.5 + Math.sin(this.startAngle) / 2) * Geometry.GLOBAL_HEIGHT],
+      [(0.5 + Math.cos(this.endAngle) / 2) * Geometry.GLOBAL_WIDTH,
+        (0.5 + Math.sin(this.endAngle) / 2) * Geometry.GLOBAL_HEIGHT]
     ]
     this.defenseLineLength = Math.sqrt(Math.pow(this.defenseLine[1][0] - this.defenseLine[0][0], 2) + Math.pow(this.defenseLine[1][1] - this.defenseLine[0][1], 2));
     this.input = 0;

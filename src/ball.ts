@@ -13,10 +13,10 @@ export class Ball {
   constructor({key, color}: { key:string, color: string}) {
     this.color = color;
     this.key = key;
-    this.x = 0;
-    this.y = 0;
+    this.x = Geometry.GLOBAL_WIDTH / 2;
+    this.y = Geometry.GLOBAL_HEIGHT / 2;
     this.size = 5;
-    this.direction = [Math.random() - 0.5, Math.random() - 0.5];
+    this.direction = [Math.random() + 0.5, Math.random() + 0.5];
   }
 
   trajectory(): Segment {

@@ -92,7 +92,9 @@ export class Game {
     return {
       players: this.players.map(player => player.state()).sort((p1, p2) => p1.points - p2.points),
       balls: this.balls.map(ball => ball.state()),
-      startDate: this.startDate
+      startDate: this.startDate,
+      width: Geometry.GLOBAL_WIDTH,
+      height: Geometry.GLOBAL_HEIGHT,
     }
   }
 
