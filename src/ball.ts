@@ -10,13 +10,13 @@ export class Ball {
   direction: Vector;
   size: number;
 
-  constructor({key, color}: { key:string, color: string}) {
+  constructor({key, color}: { key: string, color: string }) {
     this.color = color;
     this.key = key;
     this.x = Geometry.GLOBAL_WIDTH / 2;
     this.y = Geometry.GLOBAL_HEIGHT / 2;
     this.size = 5;
-    this.direction = [Math.random() + 0.5, Math.random() + 0.5];
+    this.direction = [Math.random() * 4 - 2, Math.random() * 4 - 2];
   }
 
   trajectory(): Segment {
@@ -25,7 +25,7 @@ export class Ball {
 
   bounce(player: Player) {
     this.lastBouncePlayer = player;
-    this.direction = Geometry.reflect(this.direction, player.defenseLine);
+    this.direction = Geometry.limitToMax(Geometry.reflect(this.direction, player.defenseLine), 50);
   }
 
   move() {

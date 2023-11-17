@@ -93,10 +93,12 @@ export class Queue {
     if (!this.currentGame!.finished) {
       setTimeout(() => this.executeGame(), GAME_LOOP_MS);
       this.sendCurrentScoreToServer();
+      this.sendHighScoreToServer();
     } else {
       console.log("Game finished.");
       this.currentGame!.reward();
       this.currentGame = undefined;
+      this.sendCurrentScoreToServer();
       this.sendHighScoreToServer();
     }
   }
@@ -133,7 +135,7 @@ export class Queue {
 
   private state() {
     const list = [...this.players.map(player => player.state())];
-    list.sort((p1, p2) => p1.total - p2.total);
+    list.sort((p1, p2) => p2.total - p1.total);
     return {players: list.slice(0, 10)};
   }
 }

@@ -5,6 +5,7 @@ export type Vector = [number, number];
 export class Geometry {
   static GLOBAL_HEIGHT = 1200;
   static GLOBAL_WIDTH = 1200;
+  static ACCELRERATION_FACTOR = 0.3;
 
   static segmentsIntersects(s0: Segment, s1: Segment) {
     const dx0 = s0[1][0] - s0[0][0];
@@ -20,13 +21,21 @@ export class Geometry {
 
   static reflect(direction: Vector, defenseLine: Segment) {
     // https://stackoverflow.com/questions/1243614/how-do-i-calculate-the-normal-vector-of-a-line-segment
-    const normX = defenseLine[1][0] - defenseLine[0][0];
-    const normY = defenseLine[1][1] - defenseLine[0][1];
+    const normX = (1.3 + this.ACCELRERATION_FACTOR) * (defenseLine[1][0] - defenseLine[0][0]) / Geometry.GLOBAL_WIDTH;
+    const normY = (1.3 + this.ACCELRERATION_FACTOR) * (defenseLine[1][1] - defenseLine[0][1]) / Geometry.GLOBAL_HEIGHT;
     const normal = [-normY, normX] as [number, number];
 
-    // https://3dkingdoms.com/weekly/weekly.php?a=2
-    // Vnew = -2*(V dot N)*N + V
+    // https://math.stackexchange.com/questions/13261/how-to-get-a-reflection-vector
+    // 𝑟=𝑑−2(𝑑⋅𝑛)𝑛
     return Geometry.add(Geometry.mult(-2 * Geometry.dot(direction, normal), normal), direction);
+  }
+
+  static limitToMax(direction: Vector, max: number): Vector {
+    const directionMax = Math.max(...direction);
+    if (directionMax > max) {
+      return direction.map(val => val * max / directionMax) as Vector;
+    }
+    return direction;
   }
 
   static add(v1: [number, number], v2: [number, number]): Vector {

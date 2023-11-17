@@ -73,6 +73,7 @@ export class Player {
   }
 
   gain(ball: Ball) {
+    console.log(`player ${this.name} gains ${ball.key === this.key ? 5 : 1}`);
     this.points += ball.key === this.key ? 5 : 1;
     this.sizePercent = Math.min(MAX_BLOCK_SIZE_PERCENT, this.sizePercent * (ball.key === this.key ? INCREASE_BALL_FACTOR_SELF : INCREASE_BALL_FACTOR_OTHER));
   }
@@ -92,7 +93,7 @@ export class Player {
       name: this.name,
       defenseLine: this.defenseLine,
       points: this.points,
-      total: this.totalPoints,
+      total: this.totalPoints + this.points,
       block: this.block()
     };
   }

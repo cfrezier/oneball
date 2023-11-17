@@ -4,7 +4,7 @@ import {Ball} from "./ball";
 import {Geometry} from "./geometry";
 
 const MAX_PLAYERS = 8;
-const QUEUE_TIME = 30;
+const QUEUE_TIME = 10;
 const RETRY_TIME = 10;
 
 export class Game {
