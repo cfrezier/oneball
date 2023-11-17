@@ -5,6 +5,8 @@ export class GameDisplay {
   canvas!: HTMLCanvasElement;
   debug!: HTMLDivElement;
   context!: CanvasRenderingContext2D;
+  width: number = 10;
+  height: number = 10;
 
   constructor() {
     setTimeout(() => this.init(), 100);
@@ -13,8 +15,10 @@ export class GameDisplay {
   init() {
     this.canvas = window.document.body.querySelector(".game-canvas")!;
     this.context = this.canvas.getContext('2d')!;
-    const canvasW = this.canvas.getBoundingClientRect().width;
-    const canvasH = this.canvas.getBoundingClientRect().height;
+    this.width = this.canvas.getBoundingClientRect().width;
+    this.height = this.canvas.getBoundingClientRect().height;
+    this.canvas.width = this.width;
+    this.canvas.height = this.height;
     this.debug = window.document.body.querySelector(".debug-game-state")!;
   }
 
