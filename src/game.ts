@@ -13,6 +13,7 @@ export class Game {
   queue: Queue;
   balls: Ball[] = [];
   finished = false;
+  started: boolean = false;
 
   constructor(queue: Queue) {
     this.queue = queue;
@@ -23,7 +24,7 @@ export class Game {
       if (this.players.length < MAX_PLAYERS) {
         this.players.push(player);
       }
-      if (this.players.length > 1 && !this.startDate) {
+      if (this.players.length > 2 && !this.startDate) {
         console.log(`Starting in ${QUEUE_TIME}s`);
         this.startDate = new Date().getTime() + 1000 * QUEUE_TIME;
         setTimeout(() => this.start(), 1000 * QUEUE_TIME);
@@ -33,6 +34,7 @@ export class Game {
 
   start() {
     if (this.players.length > 1) {
+      this.started = true;
       this.queue.launchGame();
     } else {
       console.log(`Not enough players... retry in ${RETRY_TIME}s`);
@@ -46,6 +48,7 @@ export class Game {
   init() {
     this.balls = this.players.map(player => new Ball({key: player.key, color: player.color}));
     this.players.forEach((player, idx, arr) => player.init(idx, arr));
+    console.log("Game initialized");
   }
 
   execute() {
@@ -91,5 +94,9 @@ export class Game {
       balls: this.balls.map(ball => ball.state()),
       startDate: this.startDate
     }
+  }
+
+  reward() {
+    this.players.forEach((player) => player.reward());
   }
 }

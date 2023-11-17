@@ -17,21 +17,17 @@ export class ScoreDisplay {
   }
 
   updateScore(payload: any) {
-    this.getScoreDiv()?.childNodes.forEach(node => {
-      this.getScoreDiv()?.removeChild(node);
-    });
+    this.getScoreDiv().innerHTML = "";
 
-    payload.state.players.forEach((player: any) => {
+    (payload.state?.players ?? []).forEach((player: any) => {
       this.addScore(player, this.getScoreDiv());
     });
   }
 
   updateHighScore(payload: any) {
-    this.getScoreDiv()?.childNodes.forEach(node => {
-      this.getScoreDiv()?.removeChild(node);
-    });
+    this.getHighscoreDiv().innerHTML = "";
 
-    payload.state.players.forEach((player: any) => {
+    (payload.state?.players ?? []).forEach((player: any) => {
       this.addScore(player, this.getHighscoreDiv());
     });
   }

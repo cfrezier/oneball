@@ -22,6 +22,16 @@ body {
 
 .draw {
     grid-area: draw;
+    display: flex;
+    flex-direction: column;
+}
+
+.draw > .game-canvas {
+    flex: 1 1;
+}
+
+.debug-game-state {
+    visibility: hidden;
 }
 
 .queue {

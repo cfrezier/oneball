@@ -34,12 +34,12 @@ export class Player {
   points = 0;
   totalPoints = 0;
 
-  constructor(name: string) {
+  constructor(name: string, key?: string) {
     this.name = name;
-    this.key = uuid();
+    this.key = key ?? uuid();
   }
 
-  connect(ws: WebSocket) {
+  connect(ws?: WebSocket) {
     this.connected = true;
     this.ws = ws;
   }
@@ -90,5 +90,10 @@ export class Player {
       points: this.points,
       total: this.totalPoints
     };
+  }
+
+  reward() {
+    this.totalPoints += this.points;
+    this.points = 0;
   }
 }

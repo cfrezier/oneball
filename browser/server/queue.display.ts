@@ -1,24 +1,29 @@
 export default class QueueDisplay {
   _queueDiv?: HTMLDivElement;
-  timeNode?: HTMLParagraphElement;
+  _timeDiv?: HTMLDivElement;
 
   getQueueDiv() {
     if (!this._queueDiv) {
       this._queueDiv = window.document.body.querySelector(".queue-content") ?? undefined;
     }
-    return this._queueDiv;
+    return this._queueDiv!;
+  }
+
+  getTimeDiv() {
+    if (!this._timeDiv) {
+      this._timeDiv = window.document.body.querySelector(".queue-time") ?? undefined;
+    }
+    return this._timeDiv!;
   }
 
   update(payload: any) {
-    this.getQueueDiv()?.childNodes.forEach(node => {
-      this.getQueueDiv()?.removeChild(node);
-    });
+    this.getQueueDiv().innerHTML = '';
 
-    payload.state.players.forEach((player: any) => {
+    (payload.state?.players ?? []).forEach((player: any) => {
       this.addChild(player);
     })
 
-    this.createTime(payload);
+    this.updateTime(payload);
   }
 
   private addChild(player: any) {
@@ -28,19 +33,15 @@ export default class QueueDisplay {
     this.getQueueDiv()?.appendChild(node);
   }
 
-  private createTime(payload: any) {
-    this.timeNode = document.createElement('p');
-    this.getQueueDiv()?.appendChild(this.timeNode);
-    this.updateTime(payload);
-  }
-
   private updateTime(payload: any) {
-    const toGo = this.secondsToGo(payload.state.startDate);
-    this.timeNode!.innerText = toGo.text;
-    if (toGo.continue) {
-      setTimeout(() => {
-        this.updateTime(payload);
-      }, 1000);
+    if (payload.state) {
+      const toGo = this.secondsToGo(payload.state.startDate);
+      this.getTimeDiv().innerText = toGo.text;
+      if (toGo.continue) {
+        setTimeout(() => {
+          this.updateTime(payload);
+        }, 1000);
+      }
     }
   }
 

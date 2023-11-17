@@ -3,7 +3,8 @@ export type DataMsg = {
   name: string,
   key: string
 } | {
-  type: 'queue'
+  type: 'queue',
+  key: string;
 } | {
   type: 'server'
 };
