@@ -36,8 +36,8 @@ export class GameDisplay {
         ball.position[1],
         ball.size
       );
-      gradient.addColorStop(0, ball.color);
-      gradient.addColorStop(1, '#ffffff');
+      gradient.addColorStop(0, "rgba(0, 0, 0, 0)");
+      gradient.addColorStop(1, ball.color);
 
       this.context.beginPath();
       this.context.arc(
@@ -62,6 +62,24 @@ export class GameDisplay {
     total: number,
     block: Segment
   }[]) {
+    // Draw DefenseLines
+    this.context.lineWidth = 1
+    this.context.strokeStyle = "rgba(176, 176, 176, 0.25)";
+    players.forEach(player => {
+      this.context.beginPath();
+      this.context.moveTo(...player.defenseLine[0]);
+      this.context.lineTo(...player.defenseLine[1]);
+      this.context.stroke();
+    });
 
+    // Draw blocks
+    this.context.lineWidth = 3
+    players.forEach(player => {
+      this.context.strokeStyle = player.color;
+      this.context.beginPath();
+      this.context.moveTo(...player.block[0]);
+      this.context.lineTo(...player.block[1]);
+      this.context.stroke();
+    });
   }
 }
