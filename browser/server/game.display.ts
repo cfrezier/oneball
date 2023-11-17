@@ -86,5 +86,11 @@ export class GameDisplay {
       this.context.lineTo(...player.block[1]);
       this.context.stroke();
     });
+
+    this.context.font = "18px serif";
+    players.forEach(player => {
+      this.context.strokeStyle = player.color;
+      this.context.fillText(player.name, (player.defenseLine[1][0] + player.defenseLine[0][0]) / 2, (player.defenseLine[1][1] + player.defenseLine[0][1]) / 2);
+    });
   }
 }

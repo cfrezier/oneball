@@ -18,10 +18,10 @@ export class Queue {
     setTimeout(() => this.processMsg({type: 'joined', name: 'Joueur 3', key: 'key-3'}, undefined), 2000);
     setTimeout(() => this.processMsg({type: 'joined', name: 'Joueur 4', key: 'key-4'}, undefined), 3000);
     setTimeout(() => this.processMsg({type: 'joined', name: 'Joueur 5', key: 'key-5'}, undefined), 10000);
-    setTimeout(() => this.processMsg({type: 'queue', key: 'key-4'}, undefined), 4000);
+    setTimeout(() => this.processMsg({type: 'queue', key: 'key-1'}, undefined), 4000);
     setTimeout(() => this.processMsg({type: 'queue', key: 'key-2'}, undefined), 5000);
-    setTimeout(() => this.processMsg({type: 'queue', key: 'key-1'}, undefined), 6000);
-    setTimeout(() => this.processMsg({type: 'queue', key: 'key-5'}, undefined), 15000);
+    setTimeout(() => this.processMsg({type: 'queue', key: 'key-3'}, undefined), 6000);
+    setTimeout(() => this.processMsg({type: 'queue', key: 'key-4'}, undefined), 15000);
   }
 
   processMsg(payload: DataMsg, ws?: WebSocket) {

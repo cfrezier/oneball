@@ -4,9 +4,16 @@ import {colors} from "./colors";
 import {Geometry, Segment, Vector} from "./geometry";
 import {Ball} from "./ball";
 
+/*
 const START_BLOCK_SIZE_PERCENT = 0.1;
 const MIN_BLOCK_SIZE_PERCENT = 0.02;
 const MAX_BLOCK_SIZE_PERCENT = 0.3;
+*/
+
+
+const START_BLOCK_SIZE_PERCENT = 0.9;
+const MIN_BLOCK_SIZE_PERCENT = 0.8;
+const MAX_BLOCK_SIZE_PERCENT = 1;
 
 const DECREASE_BALL_FACTOR_OTHER = 0.8;
 const DECREASE_BALL_FACTOR_SELF = 0.5;
@@ -61,10 +68,6 @@ export class Player {
     const first = [(this.defenseLine[0][0] * (1 - startPercent) + this.defenseLine[1][0] * (startPercent)), (this.defenseLine[0][1] * (1 - startPercent) + this.defenseLine[1][1] * (startPercent))] as Vector;
     const second = [(this.defenseLine[0][0] * (1 - endPercent) + this.defenseLine[1][0] * (endPercent)), (this.defenseLine[0][1] * (1 - endPercent) + this.defenseLine[1][1] * (endPercent))] as Vector;
     return [first, second];
-  }
-
-  distance(p1: Vector, p2: Vector) {
-    return Math.sqrt(Math.pow(p1[0] - p2[0], 2) + Math.pow(p1[1] - p2[1], 2))
   }
 
   lost(ball: Ball) {
