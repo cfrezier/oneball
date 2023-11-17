@@ -46,8 +46,8 @@ export class Game {
   }
 
   init() {
-    this.balls = this.players.map(player => new Ball({key: player.key, color: player.color}));
     this.players.forEach((player, idx, arr) => player.init(idx, arr));
+    this.balls = this.players.map(player => new Ball({key: player.key, color: player.color}));
     console.log("Game initialized");
   }
 

@@ -31,7 +31,7 @@ body {
 }
 
 .debug-game-state {
-    visibility: hidden;
+    opacity: 0.5;
 }
 
 .queue {

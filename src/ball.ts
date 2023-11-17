@@ -8,12 +8,14 @@ export class Ball {
   y: number;
   lastBouncePlayer?: Player;
   direction: Vector;
+  size: number;
 
   constructor({key, color}: { key:string, color: string}) {
     this.color = color;
     this.key = key;
     this.x = 0;
     this.y = 0;
+    this.size = 5;
     this.direction = [Math.random() - 0.5, Math.random() - 0.5];
   }
 
@@ -34,7 +36,8 @@ export class Ball {
   state() {
     return {
       position: [this.x, this.y],
-      color: this.color
+      color: this.color,
+      size: this.size
     };
   }
 }

@@ -88,7 +88,8 @@ export class Player {
       defenseLine: this.defenseLine,
       size: this.size,
       points: this.points,
-      total: this.totalPoints
+      total: this.totalPoints,
+      block: this.block()
     };
   }
 
