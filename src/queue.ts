@@ -53,11 +53,17 @@ export class Queue {
           console.log(`Creating next game`);
           this.nextGame = new Game(this);
         }
-        const player = this.players.find((player) => payload.key === player.key);
-        if (!!player) {
-          console.log(`Player ${player.name} queuing for next game`);
-          this.nextGame.apply(player);
+        const playerQueue = this.players.find((player) => payload.key === player.key);
+        if (!!playerQueue) {
+          console.log(`Player ${playerQueue.name} queuing for next game`);
+          this.nextGame.apply(playerQueue);
           this.sendQueueUpdate();
+        }
+        break;
+      case 'input':
+        const playerInput = this.players.find((player) => payload.key === player.key);
+        if (!!playerInput) {
+          playerInput.move(payload.input)
         }
         break;
       case 'server':

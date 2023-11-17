@@ -4,7 +4,11 @@ export type DataMsg = {
   key: string
 } | {
   type: 'queue',
-  key: string;
+  key: string
 } | {
   type: 'server'
+} | {
+  type: 'input',
+  input: number,
+  key: string
 };

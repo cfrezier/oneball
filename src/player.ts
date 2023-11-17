@@ -1,12 +1,12 @@
 import {WebSocket} from "ws";
 import {v4 as uuid} from 'uuid';
 import {colors} from "./colors";
-import {Geometry, Segment} from "./geometry";
+import {Geometry, Segment, Vector} from "./geometry";
 import {Ball} from "./ball";
 
-const START_BLOCK_SIZE = 40;
-const MIN_BLOCK_SIZE = 25;
-const MAX_BLOCK_SIZE = 70;
+const START_BLOCK_SIZE_PERCENT = 0.1;
+const MIN_BLOCK_SIZE_PERCENT = 0.02;
+const MAX_BLOCK_SIZE_PERCENT = 0.3;
 
 const DECREASE_BALL_FACTOR_OTHER = 0.8;
 const DECREASE_BALL_FACTOR_SELF = 0.5;
@@ -24,10 +24,9 @@ export class Player {
   startAngle?: number;
   endAngle?: number;
   defenseLine: Segment = [[0, 0], [1, 1]];
-  defenseLineLength: number = 10;
 
   input = 0;
-  size: number = START_BLOCK_SIZE;
+  sizePercent: number = START_BLOCK_SIZE_PERCENT;
 
   points = 0;
   totalPoints = 0;
@@ -53,25 +52,29 @@ export class Player {
       [(0.5 + Math.cos(this.endAngle) / 2) * Geometry.GLOBAL_WIDTH,
         (0.5 + Math.sin(this.endAngle) / 2) * Geometry.GLOBAL_HEIGHT]
     ]
-    this.defenseLineLength = Math.sqrt(Math.pow(this.defenseLine[1][0] - this.defenseLine[0][0], 2) + Math.pow(this.defenseLine[1][1] - this.defenseLine[0][1], 2));
-    this.input = 0;
+    this.input = 0.5;
   }
 
   block(): Segment {
-    const distanceStartPercent = this.defenseLineLength * this.input - 0.5 * this.size / this.defenseLineLength;
-    const distanceEndPercent = this.defenseLineLength * this.input + 0.5 * this.size / this.defenseLineLength;
-    return [[(this.defenseLine[0][0] - this.defenseLine[1][0]) * distanceStartPercent, ((this.defenseLine[0][1] - this.defenseLine[1][1]) * distanceStartPercent)],
-      [(this.defenseLine[0][0] - this.defenseLine[1][0]) * distanceEndPercent, ((this.defenseLine[0][1] - this.defenseLine[1][1]) * distanceEndPercent)]];
+    const startPercent = this.input - this.sizePercent;
+    const endPercent = this.input + this.sizePercent;
+    const first = [(this.defenseLine[0][0] * (1 - startPercent) + this.defenseLine[1][0] * (startPercent)), (this.defenseLine[0][1] * (1 - startPercent) + this.defenseLine[1][1] * (startPercent))] as Vector;
+    const second = [(this.defenseLine[0][0] * (1 - endPercent) + this.defenseLine[1][0] * (endPercent)), (this.defenseLine[0][1] * (1 - endPercent) + this.defenseLine[1][1] * (endPercent))] as Vector;
+    return [first, second];
+  }
+
+  distance(p1: Vector, p2: Vector) {
+    return Math.sqrt(Math.pow(p1[0] - p2[0], 2) + Math.pow(p1[1] - p2[1], 2))
   }
 
   lost(ball: Ball) {
     this.points -= ball.key === this.key ? 5 : 1;
-    this.size = Math.max(MIN_BLOCK_SIZE, this.size * (ball.key === this.key ? DECREASE_BALL_FACTOR_SELF : DECREASE_BALL_FACTOR_OTHER));
+    this.sizePercent = Math.max(MIN_BLOCK_SIZE_PERCENT, this.sizePercent * (ball.key === this.key ? DECREASE_BALL_FACTOR_SELF : DECREASE_BALL_FACTOR_OTHER));
   }
 
   gain(ball: Ball) {
     this.points += ball.key === this.key ? 5 : 1;
-    this.size = Math.min(MAX_BLOCK_SIZE, this.size * (ball.key === this.key ? INCREASE_BALL_FACTOR_SELF : INCREASE_BALL_FACTOR_OTHER));
+    this.sizePercent = Math.min(MAX_BLOCK_SIZE_PERCENT, this.sizePercent * (ball.key === this.key ? INCREASE_BALL_FACTOR_SELF : INCREASE_BALL_FACTOR_OTHER));
   }
 
   disconnect() {
@@ -79,12 +82,15 @@ export class Player {
     this.ws = undefined;
   }
 
+  move(input: number) {
+    this.input = input;
+  }
+
   state() {
     return {
       color: this.color,
       name: this.name,
       defenseLine: this.defenseLine,
-      size: this.size,
       points: this.points,
       total: this.totalPoints,
       block: this.block()
