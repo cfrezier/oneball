@@ -17,8 +17,10 @@ export class GameDisplay {
     this.context = this.canvas.getContext('2d')!;
     this.width = this.canvas.getBoundingClientRect().width;
     this.height = this.canvas.getBoundingClientRect().height;
-    this.canvas.width = this.width;
-    this.canvas.height = this.height;
+    this.canvas.width = 1200;
+    this.canvas.height = 1200;
+    this.canvas.style.width = 'calc(100vw - 250px)';
+    this.canvas.style.height = 'calc(100vh - 60px)';
     this.debug = window.document.body.querySelector(".debug-game-state")!;
   }
 
@@ -72,7 +74,7 @@ export class GameDisplay {
     total: number,
     block: Segment
   }[]) {
-    if(this.context) {
+    if (this.context) {
       // Draw DefenseLines
       this.context.lineWidth = 1
       this.context.strokeStyle = "rgba(176, 176, 176, 0.25)";

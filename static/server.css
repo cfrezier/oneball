@@ -34,7 +34,7 @@ body {
 .draw > .game-canvas {
     flex: 1 1;
     background-image: url('./img/onepoint.png');
-    background-position: 457px 405px;
+    background-position: center 50%, center calc(50% - 40px);
     background-repeat: no-repeat;
 }
 

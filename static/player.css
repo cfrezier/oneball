@@ -1,3 +1,22 @@
 #panel-name, #panel-queue, #panel-input {
     display: none;
 }
+
+.btn {
+    border-radius: 10px;
+    background-color: dodgerblue;
+    color: white;
+    border: none;
+}
+
+body {
+    background-color: black;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
