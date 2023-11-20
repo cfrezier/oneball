@@ -3,7 +3,11 @@ import {InputComponent} from "./input.component";
 import {v4} from "uuid";
 import {QueueComponent} from "./queue.component";
 
-const key = localStorage.getItem('oneball-key') || v4();
+const STORAGE_KEY = 'oneball-key';
+
+const key = localStorage.getItem(STORAGE_KEY) || v4();
+localStorage.setItem(STORAGE_KEY, key);
+
 let auth = false;
 let ws: WebSocket;
 const nameComponent = new NameComponent();
@@ -11,7 +15,7 @@ const inputComponent = new InputComponent();
 const queueComponent = new QueueComponent();
 
 const propagateAuth = () => {
-  const name = (document.getElementById('input-name') as HTMLInputElement).value;
+  const name = nameComponent.value();
   ws.send(JSON.stringify({type: 'joined', key, name}));
   auth = true;
   nameComponent.hide();
