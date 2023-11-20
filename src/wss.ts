@@ -3,11 +3,12 @@ import {Player} from "./player";
 import {Game} from "./game";
 import {DataMsg} from "./data.message";
 import {Queue} from "./queue";
+import {Simulate} from "./simulate";
 
 const PORT = 8001;
 const wss = new WebSocket.Server({host: "0.0.0.0", port: PORT});
 const queue = new Queue();
-queue.mock();
+Simulate.init(queue);
 
 wss.on('connection', (ws) => {
   console.log('New client');

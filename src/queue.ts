@@ -2,6 +2,7 @@ import {Player} from "./player";
 import {Game} from "./game";
 import {DataMsg} from "./data.message";
 import {WebSocket} from "ws";
+import {Simulate} from "./simulate";
 
 export const GAME_LOOP_MS = 50;
 
@@ -10,23 +11,6 @@ export class Queue {
   nextGame?: Game;
   currentGame?: Game;
   servers: (WebSocket | undefined)[] = [];
-  started = false;
-
-  mock() {
-    setTimeout(() => this.processMsg({type: 'joined', name: 'Joueur 1', key: 'key-1'}, undefined), 1000);
-    setTimeout(() => this.processMsg({type: 'joined', name: 'Joueur 2', key: 'key-2'}, undefined), 1500);
-    setTimeout(() => this.processMsg({type: 'joined', name: 'Joueur 3', key: 'key-3'}, undefined), 2000);
-    setTimeout(() => this.processMsg({type: 'joined', name: 'Joueur 4', key: 'key-4'}, undefined), 3000);
-    setTimeout(() => this.processMsg({type: 'joined', name: 'Joueur 5', key: 'key-5'}, undefined), 10000);
-    this.mockJoin();
-  }
-
-  mockJoin() {
-    setTimeout(() => this.processMsg({type: 'queue', key: 'key-1'}, undefined), Math.random() * 9000);
-    setTimeout(() => this.processMsg({type: 'queue', key: 'key-2'}, undefined), Math.random() * 9000);
-    setTimeout(() => this.processMsg({type: 'queue', key: 'key-3'}, undefined), Math.random() * 9000);
-    setTimeout(() => this.processMsg({type: 'queue', key: 'key-4'}, undefined), Math.random() * 9000);
-  }
 
   processMsg(payload: DataMsg, ws?: WebSocket) {
     switch (payload.type) {
@@ -57,10 +41,13 @@ export class Queue {
           console.log(`Creating next game`);
           this.nextGame = new Game(this);
         }
-        const playerQueue = this.players.find((player) => payload.key === player.key);
-        if (!!playerQueue) {
-          console.log(`Player ${playerQueue.name} queuing for next game`);
-          this.nextGame.apply(playerQueue);
+        const player = this.players.find((player) => payload.key === player.key);
+        const playerInCurrentGame = this.currentGame?.players.find((player) => payload.key === player.key);
+        const playerInCurrentQueue = this.nextGame?.players.find((player) => payload.key === player.key);
+
+        if (!playerInCurrentGame && !playerInCurrentQueue && !!player) {
+          console.log(`Player ${player.name} queuing for next game`);
+          this.nextGame.apply(player);
           this.sendQueueUpdate();
         }
         break;
@@ -106,7 +93,6 @@ export class Queue {
       this.sendHighScoreToServer();
       this.sendGameToServer();
       this.sendQueueUpdate();
-      this.mockJoin();
     }
   }
 

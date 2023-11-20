@@ -53,6 +53,7 @@ export class Player {
     this.color = colors[idx];
     this.startAngle = 2 * Math.PI * idx / arr.length;
     this.endAngle = 2 * Math.PI * (idx + 1) / arr.length;
+    this.sizePercent = START_BLOCK_SIZE_PERCENT;
     this.defenseLine = [
       [(0.5 + Math.cos(this.startAngle) / 2) * Geometry.GLOBAL_WIDTH,
         (0.5 + Math.sin(this.startAngle) / 2) * Geometry.GLOBAL_HEIGHT],
