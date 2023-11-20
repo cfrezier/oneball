@@ -2,8 +2,9 @@ import QRCodeStyling from "qr-code-styling";
 
 export class QrCodeDisplay {
   init() {
-    const canvas = document.getElementById('qr-code');
-    if (canvas) {
+    const div = document.getElementById('qr-code');
+    if (div) {
+      div.innerHTML = "";
       const qrCode = new QRCodeStyling({
         width: 200,
         height: 200,
@@ -23,7 +24,7 @@ export class QrCodeDisplay {
         }
       });
 
-      qrCode.append(canvas);
+      qrCode.append(div);
     } else {
       this.init();
     }
