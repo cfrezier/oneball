@@ -37,6 +37,7 @@ export class Player {
 
   points = 0;
   totalPoints = 0;
+  reverseInput: boolean = false;
 
   constructor(name: string, key?: string) {
     this.name = name;
@@ -61,6 +62,7 @@ export class Player {
         (0.5 + Math.sin(this.endAngle) / 2) * Geometry.GLOBAL_HEIGHT]
     ]
     this.input = 0.5;
+    this.reverseInput = this.defenseLine[0][0] > this.defenseLine[1][0];
   }
 
   block(): Segment {
@@ -87,8 +89,8 @@ export class Player {
     this.ws = undefined;
   }
 
-  move(input: number) {
-    this.input = input;
+  move(payload: { type: "input"; input: string; key: string }) {
+    this.input = this.reverseInput ? 1 - parseFloat(payload.input + '') : parseFloat(payload.input + '');
   }
 
   state() {
