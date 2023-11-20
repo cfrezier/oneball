@@ -45,7 +45,7 @@ export class GameDisplay {
         ball.position[1],
         ball.size
       );
-      gradient.addColorStop(0, "rgba(0, 0, 0, 0)");
+      gradient.addColorStop(0, "white");
       gradient.addColorStop(1, ball.color);
 
       this.context.beginPath();

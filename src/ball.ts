@@ -14,7 +14,7 @@ export class Ball {
   constructor({key, color}: { key: string, color: string }) {
     this.color = color;
     this.key = key;
-    this.size = 5;
+    this.size = 3;
     this.direction = [this.randomVelocity(), this.randomVelocity()];
   }
 

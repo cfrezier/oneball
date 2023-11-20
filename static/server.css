@@ -11,10 +11,13 @@ body {
     grid-template-areas:
             "nav nav"
             "draw queue"
-            "draw score";
-    grid-template-rows: 60px 1fr 1fr;
+            "draw score"
+            "draw highscore";
+    grid-template-rows: 60px 1fr 1fr 1fr;
     grid-template-columns: 1fr 250px;
     font-family: 'Tahoma';
+    background-color: black;
+    color: white;
 }
 
 .nav {
@@ -29,10 +32,14 @@ body {
 
 .draw > .game-canvas {
     flex: 1 1;
+    background-image: url('./img/onepoint.png');
+    background-position: 457px 405px;
+    background-repeat: no-repeat;
 }
 
 .debug-game-state {
     opacity: 0.5;
+    display: none;
 }
 
 .queue {
@@ -41,6 +48,10 @@ body {
 
 .score {
     grid-area: score;
+}
+
+.highscore {
+    grid-area: highscore;
 }
 
 .highscore-content, .score-content {
@@ -52,4 +63,20 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+p {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+h1 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.header {
+    font-size: 1.5rem;
+    line-height: 1.5rem;
+    font-weight: 400;
 }

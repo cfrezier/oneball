@@ -5,8 +5,10 @@ export class Simulate {
 
   static someConnect(queue: Queue) {
     setTimeout(() => {
-      this.randomPlayerConnect(queue);
-      this.someConnect(queue);
+      this.newPlayerConnect(queue);
+      if (this.nbPlayers < 30) {
+        this.someConnect(queue);
+      }
     }, Math.random() * 2000);
   }
 
@@ -17,7 +19,7 @@ export class Simulate {
     }, Math.random() * 2000);
   }
 
-  static randomPlayerConnect(queue: Queue) {
+  static newPlayerConnect(queue: Queue) {
     const id = this.nbPlayers++;
     queue.processMsg({type: 'joined', name: `Joueur ${id}`, key: `key-${id}`}, undefined)
   }
