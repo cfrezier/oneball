@@ -78,6 +78,11 @@ export class Game {
       if (!intersect) {
         // Then simply move ball
         ball.move();
+        if(ball.checkOutsideBounds()) {
+          // Ball is going outside can happens at corners blocked by mutltiple players, then don't apply penalty
+          ballsRemoval.push(ball.key);
+          ball.lastBouncePlayer?.gain(ball);
+        }
       }
     });
 

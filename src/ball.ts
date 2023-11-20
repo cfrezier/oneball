@@ -33,24 +33,22 @@ export class Ball {
     // Determine new velocity
     const previousVelocity = Geometry.vectorNorm(this.direction);
     const intersectPercent = (intersection[0] - playerBlock[0][0]) / (playerBlock[1][0] - playerBlock[0][0]);
-    console.log('intersectPercent', intersectPercent);
-    const intersectDegree = intersectPercent - 0.5;
-    console.log('intersectDegree', intersectDegree);
+    //console.log('intersectPercent', intersectPercent);
     const blockVector = [playerBlock[1][0] - playerBlock[0][0], playerBlock[1][1] - playerBlock[0][1]] as Vector;
     const blockAngle = -1 * ((Math.acos(Geometry.dot([0, 1], blockVector) / (Geometry.vectorNorm([0, 1]) * Geometry.vectorNorm(blockVector))) * (blockVector[0] < 0 ? -1 : 1)) - Math.PI / 2);
-    console.log(`blockAngle for player ${player.name}`, blockAngle * 180 / Math.PI);
-    const reboundAngle = Math.PI / 2 + Math.PI * intersectDegree;
-    console.log('reboundAngle', reboundAngle * 180 / Math.PI);
+    //console.log(`blockAngle for player ${player.name}`, blockAngle * 180 / Math.PI);
+    const reboundAngle = Math.PI * (1 - intersectPercent);
+    //console.log('reboundAngle', reboundAngle * 180 / Math.PI);
     const angle = reboundAngle + blockAngle;
-    console.log('angle', angle * 180 / Math.PI);
-    const newVelocity = previousVelocity * Math.abs(1 - intersectDegree) * ACCELERATION_FACTOR;
+    //console.log('angle', angle * 180 / Math.PI);
+    const newVelocity = previousVelocity * Math.abs(1.5 - intersectPercent) * ACCELERATION_FACTOR;
     const dx = Math.cos(angle) * newVelocity;
     const dy = Math.sin(angle) * newVelocity;
-    console.log('dx,dy', dx, dy)
+    //console.log('dx,dy', dx, dy)
     this.direction = Geometry.limitToMax([dx, dy], 50);
-    console.log('***********');
+    //console.log('***********');
 
-    this.move(0.1);
+    this.move(0.001);
   }
 
   move(percent = 1) {
@@ -64,5 +62,9 @@ export class Ball {
       color: this.color,
       size: this.size
     };
+  }
+
+  checkOutsideBounds() {
+    return this.position[0] < 0 || this.position[1] < 0 || this.position[0] > Geometry.GLOBAL_WIDTH || this.position[1] > Geometry.GLOBAL_HEIGHT;
   }
 }
