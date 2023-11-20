@@ -41,7 +41,7 @@ export class Ball {
     //console.log('reboundAngle', reboundAngle * 180 / Math.PI);
     const angle = reboundAngle + blockAngle;
     //console.log('angle', angle * 180 / Math.PI);
-    const newVelocity = previousVelocity * Math.abs(1.5 - intersectPercent) * ACCELERATION_FACTOR;
+    const newVelocity = previousVelocity * ACCELERATION_FACTOR;
     const dx = Math.cos(angle) * newVelocity;
     const dy = Math.sin(angle) * newVelocity;
     //console.log('dx,dy', dx, dy)
