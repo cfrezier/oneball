@@ -14,6 +14,7 @@ export class Game {
   balls: Ball[] = [];
   finished = false;
   started: boolean = false;
+  ready = false;
 
   constructor(queue: Queue) {
     this.queue = queue;
@@ -34,6 +35,7 @@ export class Game {
   }
 
   start() {
+    this.ready = true;
     if (this.players.length > 1) {
       this.started = true;
       this.queue.launchGame();
@@ -47,6 +49,7 @@ export class Game {
   }
 
   init() {
+    this.started = true;
     this.balls = this.players.map(player => new Ball({key: player.key, color: player.color}));
     console.log("Game initialized");
   }
@@ -100,7 +103,9 @@ export class Game {
       startDate: this.startDate,
       width: Geometry.GLOBAL_WIDTH,
       height: Geometry.GLOBAL_HEIGHT,
-      finished: this.finished
+      finished: this.finished,
+      started: this.started,
+      ready: this.ready,
     }
   }
 
