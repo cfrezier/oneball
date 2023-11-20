@@ -23,6 +23,7 @@ export class Game {
     if (!this.players.find(playerInGame => playerInGame.key === player.key)) {
       if (this.players.length < MAX_PLAYERS) {
         this.players.push(player);
+        this.players.forEach((player, idx, arr) => player.init(idx, arr));
       }
       if (this.players.length > 2 && !this.startDate) {
         console.log(`Starting in ${QUEUE_TIME}s`);
@@ -46,7 +47,6 @@ export class Game {
   }
 
   init() {
-    this.players.forEach((player, idx, arr) => player.init(idx, arr));
     this.balls = this.players.map(player => new Ball({key: player.key, color: player.color}));
     console.log("Game initialized");
   }
@@ -78,7 +78,7 @@ export class Game {
       if (!intersect) {
         // Then simply move ball
         ball.move();
-        if(ball.checkOutsideBounds()) {
+        if (ball.checkOutsideBounds()) {
           // Ball is going outside can happens at corners blocked by mutltiple players, then don't apply penalty
           ballsRemoval.push(ball.key);
           ball.lastBouncePlayer?.gain(ball);
@@ -100,6 +100,7 @@ export class Game {
       startDate: this.startDate,
       width: Geometry.GLOBAL_WIDTH,
       height: Geometry.GLOBAL_HEIGHT,
+      finished: this.finished
     }
   }
 

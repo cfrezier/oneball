@@ -14,6 +14,7 @@ body {
             "draw score";
     grid-template-rows: 60px 1fr 1fr;
     grid-template-columns: 1fr 250px;
+    font-family: 'Tahoma';
 }
 
 .nav {

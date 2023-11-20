@@ -35,7 +35,7 @@ export default class QueueDisplay {
 
   private updateTime(payload: any) {
     if (payload.state) {
-      const toGo = this.secondsToGo(payload.state.startDate);
+      const toGo = this.secondsToGo(payload);
       this.getTimeDiv().innerText = toGo.text;
       if (toGo.continue) {
         setTimeout(() => {
@@ -45,8 +45,11 @@ export default class QueueDisplay {
     }
   }
 
-  private secondsToGo(date: string) {
-    const toGo = Math.round((new Date(date).getTime() - new Date().getTime()) / 1000);
+  private secondsToGo(payload: any) {
+    const toGo = Math.round((new Date(payload.state.startDate).getTime() - new Date().getTime()) / 1000);
+    if(isNaN(toGo) || payload.state.finished) {
+     return {text: `Waiting for next game to start...`, continue: false}
+    }
     return toGo > 0 ? {text: `Starting in ${toGo} ...`, continue: true} : {text: `Game started !`, continue: false};
   }
 }

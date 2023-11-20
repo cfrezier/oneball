@@ -4,16 +4,16 @@ import {colors} from "./colors";
 import {Geometry, Segment, Vector} from "./geometry";
 import {Ball} from "./ball";
 
-/*
 const START_BLOCK_SIZE_PERCENT = 0.1;
 const MIN_BLOCK_SIZE_PERCENT = 0.02;
 const MAX_BLOCK_SIZE_PERCENT = 0.3;
-*/
 
-
+/* To debug bounces etc */
+/*
 const START_BLOCK_SIZE_PERCENT = 0.9;
 const MIN_BLOCK_SIZE_PERCENT = 0.8;
 const MAX_BLOCK_SIZE_PERCENT = 1;
+*/
 
 const DECREASE_BALL_FACTOR_OTHER = 0.8;
 const DECREASE_BALL_FACTOR_SELF = 0.5;

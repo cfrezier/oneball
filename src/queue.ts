@@ -18,10 +18,14 @@ export class Queue {
     setTimeout(() => this.processMsg({type: 'joined', name: 'Joueur 3', key: 'key-3'}, undefined), 2000);
     setTimeout(() => this.processMsg({type: 'joined', name: 'Joueur 4', key: 'key-4'}, undefined), 3000);
     setTimeout(() => this.processMsg({type: 'joined', name: 'Joueur 5', key: 'key-5'}, undefined), 10000);
-    setTimeout(() => this.processMsg({type: 'queue', key: 'key-1'}, undefined), 4000);
-    setTimeout(() => this.processMsg({type: 'queue', key: 'key-2'}, undefined), 5000);
-    setTimeout(() => this.processMsg({type: 'queue', key: 'key-3'}, undefined), 6000);
-    setTimeout(() => this.processMsg({type: 'queue', key: 'key-4'}, undefined), 15000);
+    this.mockJoin();
+  }
+
+  mockJoin() {
+    setTimeout(() => this.processMsg({type: 'queue', key: 'key-1'}, undefined), Math.random() * 9000);
+    setTimeout(() => this.processMsg({type: 'queue', key: 'key-2'}, undefined), Math.random() * 9000);
+    setTimeout(() => this.processMsg({type: 'queue', key: 'key-3'}, undefined), Math.random() * 9000);
+    setTimeout(() => this.processMsg({type: 'queue', key: 'key-4'}, undefined), Math.random() * 9000);
   }
 
   processMsg(payload: DataMsg, ws?: WebSocket) {
@@ -100,6 +104,9 @@ export class Queue {
       this.currentGame = undefined;
       this.sendCurrentScoreToServer();
       this.sendHighScoreToServer();
+      this.sendGameToServer();
+      this.sendQueueUpdate();
+      this.mockJoin();
     }
   }
 
@@ -109,10 +116,8 @@ export class Queue {
   }
 
   private sendGameToServer() {
-    if (this.currentGame) {
-      const state = JSON.stringify({type: 'game-state', state: this.currentGame.state()});
-      this.servers.forEach((ws) => ws?.send(state));
-    }
+    const state = JSON.stringify({type: 'game-state', state: this.currentGame?.state()});
+    this.servers.forEach((ws) => ws?.send(state));
   }
 
   private sendQueueUpdate() {
