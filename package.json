@@ -17,6 +17,7 @@
     "casual": "^1.6.2",
     "formidable": "^2.0.1",
     "http-server": "^14.1.1",
+    "qr-code-styling": "^1.6.0-rc.1",
     "tslib": "^2.6.2",
     "typescript": "^5.2.2",
     "uuid": "^9.0.1",
