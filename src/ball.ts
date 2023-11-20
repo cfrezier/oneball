@@ -32,7 +32,7 @@ export class Ball {
 
     // Determine new velocity
     const previousVelocity = Geometry.vectorNorm(this.direction);
-    const intersectPercent = (intersection[0] - playerBlock[0][0]) / (playerBlock[1][0] - playerBlock[0][0]);
+    const intersectPercent = (intersection[0] - playerBlock[0][0]) / (playerBlock[1][0] - playerBlock[0][0]) * 0.9 + 0.05;
     //console.log('intersectPercent', intersectPercent);
     const blockVector = [playerBlock[1][0] - playerBlock[0][0], playerBlock[1][1] - playerBlock[0][1]] as Vector;
     const blockAngle = -1 * ((Math.acos(Geometry.dot([0, 1], blockVector) / (Geometry.vectorNorm([0, 1]) * Geometry.vectorNorm(blockVector))) * (blockVector[0] < 0 ? -1 : 1)) - Math.PI / 2);
