@@ -19,8 +19,8 @@ export class GameDisplay {
     this.height = this.canvas.getBoundingClientRect().height;
     this.canvas.width = 1200;
     this.canvas.height = 1200;
-    this.canvas.style.width = 'calc(100vw - 250px)';
-    this.canvas.style.height = 'calc(100vh - 60px)';
+    this.canvas.style.width = 'calc(100vw - 290px)';
+    this.canvas.style.height = 'calc(100vh - 100px)';
     this.debug = window.document.body.querySelector(".debug-game-state")!;
   }
 
