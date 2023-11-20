@@ -57,30 +57,26 @@ export class Game {
       let intersect = false;
       const trajectory = ball.trajectory();
 
-      if (!ball.justBounced) {
-        // Verify if ball crossing player defense line
-        this.players.forEach(player => {
-          const intersection = Geometry.getIntersection(player.defenseLine, trajectory);
-          if (intersection) {
-            intersect = true;
-            const playerBlock = player.block();
-            const rebound = Geometry.getIntersection(playerBlock, trajectory);
-            if (rebound) {
-              // Rebound from the defense block
-              ball.bounce(player, rebound, playerBlock);
-            } else {
-              // Goal
-              ballsRemoval.push(ball.key);
-              player.lost(ball);
-              ball.lastBouncePlayer?.gain(ball);
-            }
+      // Verify if ball crossing player defense line
+      this.players.forEach(player => {
+        const intersection = Geometry.getIntersection(player.defenseLine, trajectory);
+        if (intersection) {
+          intersect = true;
+          const playerBlock = player.block();
+          const rebound = Geometry.getIntersection(playerBlock, trajectory);
+          if (rebound) {
+            // Rebound from the defense block
+            ball.bounce(player, rebound, playerBlock);
+          } else {
+            // Goal
+            ballsRemoval.push(ball.key);
+            player.lost(ball);
+            ball.lastBouncePlayer?.gain(ball);
           }
-        });
-        if (!intersect) {
-          // Then simply move ball
-          ball.move();
         }
-      } else {
+      });
+      if (!intersect) {
+        // Then simply move ball
         ball.move();
       }
     });

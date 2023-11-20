@@ -28,6 +28,7 @@ export class GameDisplay {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.drawBalls(payload.state.balls);
     this.drawPlayers(payload.state.players);
+    this.drawAxes();
   }
 
   private drawBalls(balls: { position: Vector, color: string, size: number }[]) {
@@ -91,6 +92,19 @@ export class GameDisplay {
     players.forEach(player => {
       this.context.strokeStyle = player.color;
       this.context.fillText(player.name, (player.defenseLine[1][0] + player.defenseLine[0][0]) / 2, (player.defenseLine[1][1] + player.defenseLine[0][1]) / 2);
+    });
+  }
+
+  private drawAxes() {
+    /* Debug draw axes */
+    this.context.lineWidth = 1;
+    ([[[10, 10], [10, 100], 'red', 'y'], [[10, 10], [100, 10], 'orange', 'x']] as [[number, number], [number, number], string, string][]).forEach((axe: [[number, number], [number, number], string, string]) => {
+      this.context.beginPath();
+      this.context.strokeStyle = axe[2];
+      this.context.moveTo(axe[0][0], axe[0][1]);
+      this.context.lineTo(axe[1][0], axe[1][1]);
+      this.context.stroke();
+      this.context.fillText(axe[3], ...axe[1]);
     });
   }
 }

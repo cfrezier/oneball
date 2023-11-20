@@ -38,4 +38,23 @@ export class Geometry {
   static vectorNorm(v: Vector) {
     return Math.sqrt(Math.pow(v[0], 2) + Math.pow(v[1], 2))
   }
+
+  static reflect(direction: Vector, defenseLine: Segment) {
+    // https://stackoverflow.com/questions/1243614/how-do-i-calculate-the-normal-vector-of-a-line-segment
+    const normX = (2) * (defenseLine[1][0] - defenseLine[0][0]) / Geometry.GLOBAL_WIDTH;
+    const normY = (2) * (defenseLine[1][1] - defenseLine[0][1]) / Geometry.GLOBAL_HEIGHT;
+    const normal = [-normY, normX] as [number, number];
+
+    // https://math.stackexchange.com/questions/13261/how-to-get-a-reflection-vector
+    // 𝑟=𝑑−2(𝑑⋅𝑛)𝑛
+    return Geometry.add(Geometry.mult(-2 * Geometry.dot(direction, normal), normal), direction);
+  }
+
+  static add(v1: [number, number], v2: [number, number]): Vector {
+    return [v1[0] + v2[0], v1[1] + v2[1]] as Vector;
+  }
+
+  static mult(scalar: number, vector: [number, number]) {
+    return [scalar * vector[0], scalar * vector[1]] as Vector;
+  }
 }

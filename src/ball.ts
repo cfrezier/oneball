@@ -10,7 +10,6 @@ export class Ball {
   lastBouncePlayer?: Player;
   direction: Vector;
   size: number;
-  justBounced = false;
 
   constructor({key, color}: { key: string, color: string }) {
     this.color = color;
@@ -38,26 +37,25 @@ export class Ball {
     const intersectDegree = intersectPercent - 0.5;
     console.log('intersectDegree', intersectDegree);
     const blockVector = [playerBlock[1][0] - playerBlock[0][0], playerBlock[1][1] - playerBlock[0][1]] as Vector;
-    const blockAngle = Math.acos(Geometry.dot([0, 1], blockVector) / (Geometry.vectorNorm([0, 1]) * Geometry.vectorNorm(blockVector))) * (blockVector[0] < 0 ? 1 : -1);
+    const blockAngle = -1 * ((Math.acos(Geometry.dot([0, 1], blockVector) / (Geometry.vectorNorm([0, 1]) * Geometry.vectorNorm(blockVector))) * (blockVector[0] < 0 ? -1 : 1)) - Math.PI / 2);
     console.log(`blockAngle for player ${player.name}`, blockAngle * 180 / Math.PI);
-    const reboundAngle = intersectPercent * Math.PI;
+    const reboundAngle = Math.PI / 2 + Math.PI * intersectDegree;
     console.log('reboundAngle', reboundAngle * 180 / Math.PI);
     const angle = reboundAngle + blockAngle;
     console.log('angle', angle * 180 / Math.PI);
     const newVelocity = previousVelocity * Math.abs(1 - intersectDegree) * ACCELERATION_FACTOR;
-    const dx = Math.cos(angle + Math.PI / 2) * newVelocity;
-    const dy = Math.sin(angle + Math.PI / 2) * newVelocity;
+    const dx = Math.cos(angle) * newVelocity;
+    const dy = Math.sin(angle) * newVelocity;
     console.log('dx,dy', dx, dy)
     this.direction = Geometry.limitToMax([dx, dy], 50);
     console.log('***********');
 
-    this.justBounced = true;
+    this.move(0.1);
   }
 
-  move() {
-    this.position[0] += this.direction[0];
-    this.position[1] += this.direction[1];
-    this.justBounced = false;
+  move(percent = 1) {
+    this.position[0] += this.direction[0] * percent;
+    this.position[1] += this.direction[1] * percent;
   }
 
   state() {
