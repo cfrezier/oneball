@@ -2,7 +2,6 @@ import {Player} from "./player";
 import {Game} from "./game";
 import {DataMsg} from "./data.message";
 import {WebSocket} from "ws";
-import {Simulate} from "./simulate";
 
 export const GAME_LOOP_MS = 50;
 
@@ -54,7 +53,8 @@ export class Queue {
       case 'input':
         const playerInput = this.players.find((player) => payload.key === player.key);
         if (!!playerInput) {
-          playerInput.move(payload.input)
+          console.log('input', payload);
+          playerInput.move(parseFloat(payload.input + ''))
         }
         break;
       case 'server':

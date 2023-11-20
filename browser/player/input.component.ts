@@ -6,8 +6,8 @@ export class InputComponent {
     this.range = document.getElementById('input') as HTMLInputElement;
     this.panel = document.getElementById('panel-input') as HTMLDivElement;
     if (this.range) {
-      this.range.addEventListener("change", () => {
-        ws.send(JSON.stringify({type: 'input', key, value: this.range!.value}));
+      this.range.addEventListener("input", () => {
+        ws.send(JSON.stringify({type: 'input', key, input: this.range!.value}));
       }, false);
     } else {
       setTimeout(() => this.init(ws, key), 100);

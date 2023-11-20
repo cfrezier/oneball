@@ -9,6 +9,6 @@ export type DataMsg = {
   type: 'server'
 } | {
   type: 'input',
-  input: number,
+  input: string,
   key: string
 };
