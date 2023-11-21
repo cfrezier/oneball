@@ -3,7 +3,7 @@ import {Game} from "./game";
 import {DataMsg} from "./data.message";
 import {WebSocket} from "ws";
 
-export const GAME_LOOP_MS = 50;
+export const GAME_LOOP_MS = 10;
 
 export class Queue {
   players = [] as Player[];

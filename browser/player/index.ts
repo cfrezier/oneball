@@ -2,6 +2,7 @@ import {NameComponent} from "./name.component";
 import {InputComponent} from "./input.component";
 import {v4} from "uuid";
 import {QueueComponent} from "./queue.component";
+import {createWs} from '../common/ws';
 
 const STORAGE_KEY = 'oneball-key';
 
@@ -24,7 +25,7 @@ const propagateAuth = () => {
 };
 
 const connect = () => {
-  ws = new WebSocket(window.location.toString().replace("http://", "ws://").replace("8002", "8001"));
+  ws = createWs();
 
   nameComponent.init(propagateAuth);
   inputComponent.init(ws, key);

@@ -2,6 +2,7 @@ import QueueDisplay from './queue.display';
 import {ScoreDisplay} from "./score.display";
 import {GameDisplay} from "./game.display";
 import {QrCodeDisplay} from "./qrcode.display";
+import {createWs} from '../common/ws';
 
 const queue = new QueueDisplay();
 const score = new ScoreDisplay();
@@ -11,7 +12,7 @@ const qrcode = new QrCodeDisplay();
 let ws: WebSocket;
 
 const connect = () => {
-  ws = new WebSocket("ws://localhost:8001");
+  ws = createWs();
 
   ws.addEventListener('open', () => {
     ws.send(JSON.stringify({type: 'server'}));

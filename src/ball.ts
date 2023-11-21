@@ -45,7 +45,7 @@ export class Ball {
     const dx = Math.cos(angle) * newVelocity;
     const dy = Math.sin(angle) * newVelocity;
     //console.log('dx,dy', dx, dy)
-    this.direction = Geometry.limitToMax([dx, dy], 50);
+    this.direction = Geometry.limitToMax([dx, dy], 20);
     //console.log('***********');
 
     this.move(0.001);
