@@ -29,7 +29,7 @@ export default class QueueDisplay {
   private addChild(player: any) {
     const node = document.createElement('p');
     node.innerText = player.name
-    node.style.color = player.color;
+    node.style.backgroundColor = player.color;
     this.getQueueDiv()?.appendChild(node);
   }
 

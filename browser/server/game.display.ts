@@ -1,12 +1,11 @@
-import {Segment, Vector} from "../../src/geometry";
+import {Geometry, Segment, Vector} from "../../src/geometry";
 import {colors} from "../../src/colors";
 
 export class GameDisplay {
   canvas!: HTMLCanvasElement;
   debug?: HTMLDivElement;
   context!: CanvasRenderingContext2D;
-  width: number = 10;
-  height: number = 10;
+  size: number = 10;
 
   constructor() {
     setTimeout(() => this.init(), 100);
@@ -15,12 +14,11 @@ export class GameDisplay {
   init() {
     this.canvas = window.document.body.querySelector(".game-canvas")!;
     this.context = this.canvas.getContext('2d')!;
-    this.width = this.canvas.getBoundingClientRect().width;
-    this.height = this.canvas.getBoundingClientRect().height;
-    this.canvas.width = 1200;
-    this.canvas.height = 1200;
-    this.canvas.style.width = 'calc(100vw - 290px)';
-    this.canvas.style.height = 'calc(100vh - 100px)';
+    this.size = Math.min(this.canvas.getBoundingClientRect().width, this.canvas.getBoundingClientRect().height);
+    this.canvas.width = Geometry.GLOBAL_WIDTH;
+    this.canvas.height = Geometry.GLOBAL_HEIGHT;
+    this.canvas.style.width = `${this.size}px`;
+    this.canvas.style.height = `${this.size}px`;
     this.debug = window.document.body.querySelector(".debug-game-state")!;
   }
 

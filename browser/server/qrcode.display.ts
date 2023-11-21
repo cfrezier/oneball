@@ -6,10 +6,10 @@ export class QrCodeDisplay {
     if (div) {
       div.innerHTML = "";
       const qrCode = new QRCodeStyling({
-        width: 200,
-        height: 200,
+        width: 250,
+        height: 250,
         type: "svg",
-        data: window.location.toString().replace("server.html", "/player.html"),
+        data: window.location.toString().replace("server.html", "player.html"),
         image: "./img/onepoint.png",
         dotsOptions: {
           color: "#ffffff",
