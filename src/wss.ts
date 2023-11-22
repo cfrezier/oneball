@@ -13,7 +13,7 @@ Simulate.init(queue);
 wss.on('connection', (ws) => {
   console.log('New client');
   ws.on('message', (data) => {
-    console.log('WSS received: %s', data);
+    // console.log('WSS received: %s', data);
     const payload = JSON.parse(data.toString()) as DataMsg;
 
     queue.processMsg(payload, ws);

@@ -25,6 +25,7 @@ export class Game {
       if (this.players.length < MAX_PLAYERS) {
         this.players.push(player);
         this.players.forEach((player, idx, arr) => player.init(idx, arr));
+        player.queued();
       }
       if (this.players.length > 2 && !this.startDate) {
         console.log(`Starting in ${QUEUE_TIME}s`);
@@ -94,6 +95,10 @@ export class Game {
 
     // set finished when ended
     this.finished = this.balls.length === 0;
+
+    if(this.finished) {
+      this.players.forEach(player => player.canQueue());
+    }
   }
 
   state() {

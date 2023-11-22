@@ -17,4 +17,8 @@ export class QueueComponent {
   show() {
     this.panel!.style.display = "block";
   }
+
+  hide() {
+    this.panel!.style.display = "none";
+  }
 }

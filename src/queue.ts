@@ -53,7 +53,7 @@ export class Queue {
       case 'input':
         const playerInput = this.players.find((player) => payload.key === player.key);
         if (!!playerInput) {
-          console.log('input', payload);
+          //console.log('input', payload);
           playerInput.move(payload)
         }
         break;

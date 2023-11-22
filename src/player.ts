@@ -108,4 +108,12 @@ export class Player {
     this.totalPoints += this.points;
     this.points = 0;
   }
+
+  queued() {
+    this.ws?.send(JSON.stringify({type: 'queued', color: this.color}));
+  }
+
+  canQueue() {
+    this.ws?.send(JSON.stringify({type: 'can-queue'}));
+  }
 }

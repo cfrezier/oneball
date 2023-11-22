@@ -20,7 +20,6 @@ const propagateAuth = () => {
   ws.send(JSON.stringify({type: 'joined', key, name}));
   auth = true;
   nameComponent.hide();
-  inputComponent.show();
   queueComponent.show();
 };
 
@@ -37,6 +36,23 @@ const connect = () => {
 
   ws.addEventListener('close', (event) => {
     setTimeout(() => connect(), 1000);
+  });
+
+  ws.addEventListener("message", function (event) {
+    const payload = JSON.parse(event.data.toString());
+
+    console.log(payload);
+
+    switch (payload.type) {
+      case 'queued':
+        queueComponent.hide();
+        inputComponent.show(payload.color, nameComponent.value());
+        break;
+      case 'can-queue':
+        queueComponent.show();
+        inputComponent.hide();
+        break;
+    }
   });
 
   if (auth) {
