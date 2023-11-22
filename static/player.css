@@ -11,6 +11,10 @@
 
 body {
     background-color: black;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    box-sizing: border-box;
 }
 
 .main {
@@ -33,12 +37,8 @@ body {
     line-height: 2rem;
 }
 
-#input {
+#input, #input-name {
     width: 75%;
-}
-
-#input-name {
-    width: 99%;
 }
 
 #panel-input, #panel-name {

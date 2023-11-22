@@ -10,7 +10,6 @@ export class QrCodeDisplay {
         height: 250,
         type: "svg",
         data: window.location.toString().replace("server.html", "player.html"),
-        image: "./img/onepoint.png",
         dotsOptions: {
           color: "#ffffff",
           type: "rounded"
@@ -18,9 +17,11 @@ export class QrCodeDisplay {
         backgroundOptions: {
           color: "transparent",
         },
+        image: "./img/onepoint.png",
         imageOptions: {
           crossOrigin: "anonymous",
-          margin: 20
+          imageSize: 0.5,
+          margin: 0
         }
       });
 
