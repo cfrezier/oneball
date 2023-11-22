@@ -15,6 +15,6 @@ export class InputComponent {
   }
 
   show() {
-    this.panel!.style.display = "block";
+    this.panel!.style.display = "flex";
   }
 }

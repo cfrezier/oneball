@@ -12,7 +12,7 @@ export class NameComponent {
     this.input = document.getElementById('input-name') as HTMLInputElement;
     if (this.nameBtn && this.panel && this.input) {
       this.nameBtn.addEventListener('click', propagateAuth);
-      this.panel.style.display = "block";
+      this.panel.style.display = "flex";
       this.input.value = localStorage.getItem(STORAGE_KEY) ?? '';
     } else {
       setTimeout(() => this.init(propagateAuth), 100);

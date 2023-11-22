@@ -19,7 +19,7 @@ export class Ball {
   }
 
   randomVelocity() {
-    return (Math.random() > 0.5 ? 1 : -1) * (2 + Math.random() * 2);
+    return (Math.random() > 0.5 ? 1 : -1) * (1 + Math.random());
   }
 
   trajectory(): Segment {
