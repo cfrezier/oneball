@@ -7,7 +7,8 @@ export class InputComponent {
     this.range = document.getElementById('input') as HTMLInputElement;
     this.panel = document.getElementById('panel-input') as HTMLDivElement;
     this.label = document.getElementById('player-label') as HTMLDivElement;
-    if (this.range) {
+    if (this.range && this.label && this.panel) {
+      this.hide();
       this.range.addEventListener("input", () => {
         ws.send(JSON.stringify({type: 'input', key, input: this.range!.value}));
       }, false);
