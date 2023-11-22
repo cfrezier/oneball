@@ -2,6 +2,7 @@ import {Player} from "./player";
 import {Game} from "./game";
 import {DataMsg} from "./data.message";
 import {WebSocket} from "ws";
+import * as fs from "fs";
 
 export const GAME_LOOP_MS = 10;
 
@@ -10,6 +11,18 @@ export class Queue {
   nextGame?: Game;
   currentGame?: Game;
   servers: (WebSocket | undefined)[] = [];
+  path: string;
+
+  constructor(path: string) {
+    this.path = path;
+    fs.readFile(this.path, 'utf8', (err, data) => {
+      if (err) {
+        console.error('Cannont initialize', err);
+      } else {
+        this.players = JSON.parse(data).map((playerObj: Player) => Player.from(playerObj));
+      }
+    });
+  }
 
   processMsg(payload: DataMsg, ws?: WebSocket) {
     switch (payload.type) {
@@ -93,6 +106,7 @@ export class Queue {
       this.sendHighScoreToServer();
       this.sendGameToServer();
       this.sendQueueUpdate();
+      this.asyncSave();
     }
   }
 
@@ -128,5 +142,15 @@ export class Queue {
     const list = [...this.players.map(player => player.state())];
     list.sort((p1, p2) => p2.total - p1.total);
     return {players: list.slice(0, 10)};
+  }
+
+  private asyncSave() {
+    fs.writeFile(this.path, JSON.stringify(this.players), 'utf8', (err) => {
+      if (!err) {
+        console.log(`State saved under ${this.path}`);
+      } else {
+        console.log('Cannot save', err);
+      }
+    });
   }
 }

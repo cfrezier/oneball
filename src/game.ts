@@ -21,7 +21,7 @@ export class Game {
   }
 
   apply(player: Player) {
-    if (!this.players.find(playerInGame => playerInGame.key === player.key)) {
+    if (!this.players.filter(player => player.connected).find(playerInGame => playerInGame.key === player.key)) {
       if (this.players.length < MAX_PLAYERS) {
         this.players.push(player);
         this.players.forEach((player, idx, arr) => player.init(idx, arr));
@@ -96,7 +96,7 @@ export class Game {
     // set finished when ended
     this.finished = this.balls.length === 0;
 
-    if(this.finished) {
+    if (this.finished) {
       this.players.forEach(player => player.canQueue());
     }
   }

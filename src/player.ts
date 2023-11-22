@@ -116,4 +116,11 @@ export class Player {
   canQueue() {
     this.ws?.send(JSON.stringify({type: 'can-queue'}));
   }
+
+  static from(playerObj: Player) {
+    const player = new Player(playerObj.name, playerObj.key);
+    player.totalPoints = playerObj.totalPoints;
+    player.connected = false;
+    return player;
+  }
 }
