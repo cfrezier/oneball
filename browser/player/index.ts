@@ -11,6 +11,7 @@ localStorage.setItem(STORAGE_KEY, key);
 
 let auth = false;
 let ws: WebSocket;
+let isInGame = false;
 const nameComponent = new NameComponent();
 const inputComponent = new InputComponent();
 const queueComponent = new QueueComponent();
@@ -35,7 +36,7 @@ const connect = () => {
   });
 
   ws.addEventListener('close', (event) => {
-    setTimeout(() => connect(), 1000);
+    setTimeout(() => connect(), isInGame ? 10 : 1000);
   });
 
   ws.addEventListener("message", function (event) {
@@ -47,10 +48,12 @@ const connect = () => {
       case 'queued':
         queueComponent.hide();
         inputComponent.show(payload.color, nameComponent.value());
+        isInGame = true;
         break;
       case 'can-queue':
         queueComponent.show();
         inputComponent.hide();
+        isInGame = false;
         break;
     }
   });
