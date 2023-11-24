@@ -6,7 +6,6 @@ export class NameComponent {
   input: HTMLInputElement | undefined;
 
   init(propagateAuth: () => void) {
-    debugger;
     this.nameBtn = document.getElementById('btn-name') as HTMLButtonElement;
     this.panel = document.getElementById('panel-name') as HTMLDivElement;
     this.input = document.getElementById('input-name') as HTMLInputElement;

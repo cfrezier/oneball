@@ -145,7 +145,7 @@ export class Queue {
   }
 
   private asyncSave() {
-    fs.writeFile(this.path, JSON.stringify(this.players), 'utf8', (err) => {
+    fs.writeFile(this.path, JSON.stringify(this.players.map(player => player.serializable())), 'utf8', (err) => {
       if (!err) {
         console.log(`State saved under ${this.path}`);
       } else {

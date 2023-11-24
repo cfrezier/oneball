@@ -53,3 +53,7 @@ body {
 #player-label {
     border-radius: 20px;
 }
+
+#panel-score {
+    color: white;
+}

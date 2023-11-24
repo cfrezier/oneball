@@ -107,6 +107,7 @@ export class Player {
   reward() {
     this.totalPoints += this.points;
     this.points = 0;
+    this.ws?.send(JSON.stringify({type: 'score', score: this.totalPoints}));
   }
 
   queued() {
@@ -122,5 +123,13 @@ export class Player {
     player.totalPoints = playerObj.totalPoints;
     player.connected = false;
     return player;
+  }
+
+  serializable() {
+    return {
+      totalPoints: this.totalPoints,
+      name: this.name,
+      key: this.key,
+    };
   }
 }
