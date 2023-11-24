@@ -22,8 +22,8 @@ export class Ball {
     return (Math.random() > 0.5 ? 1 : -1) * (1 + Math.random());
   }
 
-  trajectory(): Segment {
-    return [this.position, [this.position[0] + this.direction[0], this.position[1] + this.direction[1]]];
+  trajectory(distance = 1): Segment {
+    return [this.position, [this.position[0] + this.direction[0] * distance, this.position[1] + this.direction[1] * distance]];
   }
 
   bounce(player: Player, intersection: Vector, playerBlock: Segment) {
@@ -32,7 +32,8 @@ export class Ball {
 
     // Determine new velocity
     const previousVelocity = Geometry.vectorNorm(this.direction);
-    const intersectPercent = intersection[0] === playerBlock[0][0] ? 0 : (intersection[0] - playerBlock[0][0]) / (playerBlock[1][0] - playerBlock[0][0]) * 0.9 + 0.05;
+    const coordToUse = intersection[0] === playerBlock[0][0] ? 1 : 0;
+    const intersectPercent = (intersection[coordToUse] - playerBlock[0][coordToUse]) / (playerBlock[1][coordToUse] - playerBlock[0][coordToUse]) * 0.9 + 0.05;
     const blockVector = [playerBlock[1][0] - playerBlock[0][0], playerBlock[1][1] - playerBlock[0][1]] as Vector;
     const blockAngle = -1 * ((Math.acos(Geometry.dot([0, 1], blockVector) / (Geometry.vectorNorm([0, 1]) * Geometry.vectorNorm(blockVector))) * (blockVector[0] < 0 ? -1 : 1)) - Math.PI / 2);
     const reboundAngle = Math.PI * (1 - intersectPercent);
