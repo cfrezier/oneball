@@ -3,6 +3,7 @@ import {Game} from "./game";
 import {DataMsg} from "./data.message";
 import {WebSocket} from "ws";
 import * as fs from "fs";
+import {Bot} from "./bot";
 
 export const GAME_LOOP_MS = 10;
 
@@ -12,8 +13,9 @@ export class Queue {
   currentGame?: Game;
   servers: (WebSocket | undefined)[] = [];
   path: string;
+  bots: Bot[];
 
-  constructor(path: string) {
+  constructor(path: string, bots = 0) {
     this.path = path;
     fs.readFile(this.path, 'utf8', (err, data) => {
       if (err) {
@@ -22,6 +24,10 @@ export class Queue {
         this.players = JSON.parse(data).map((playerObj: Player) => Player.from(playerObj));
       }
     });
+    this.bots = [];
+    for (let i = 0; i < bots; i++) {
+      this.bots.push(new Bot(this))
+    }
   }
 
   processMsg(payload: DataMsg, ws?: WebSocket) {
@@ -41,10 +47,12 @@ export class Queue {
           );
           player.connect(ws);
           console.log(`New player ${player.name} joined`);
+          this.linkBot(player);
         } else {
           console.log(`Previous player ${previous.name} > ${payload.name} joined`);
           previous.name = payload.name;
           previous.connect(ws);
+          this.linkBot(previous);
         }
         this.sendHighScoreToServer();
         break;
@@ -98,6 +106,7 @@ export class Queue {
       setTimeout(() => this.executeGame(), GAME_LOOP_MS);
       this.sendCurrentScoreToServer();
       this.sendHighScoreToServer();
+      this.askBotInputs();
     } else {
       console.log("Game finished.");
       this.currentGame!.reward();
@@ -107,6 +116,7 @@ export class Queue {
       this.sendGameToServer();
       this.sendQueueUpdate();
       this.asyncSave();
+      this.askBotsToQueue();
     }
   }
 
@@ -152,5 +162,20 @@ export class Queue {
         console.log('Cannot save', err);
       }
     });
+  }
+
+  private linkBot(player: Player) {
+    if(player?.key.indexOf("key-bot") === 0) {
+        const bot = this.bots.find(bot => bot.key === player.key);
+        bot?.link(player);
+    }
+  }
+
+  private askBotsToQueue() {
+    this.bots.forEach(bot => bot.queue(this));
+  }
+
+  private askBotInputs() {
+    this.bots.forEach(bot => bot.newInput(this.currentGame!, this));
   }
 }

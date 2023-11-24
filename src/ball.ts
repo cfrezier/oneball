@@ -32,22 +32,15 @@ export class Ball {
 
     // Determine new velocity
     const previousVelocity = Geometry.vectorNorm(this.direction);
-    const intersectPercent = (intersection[0] - playerBlock[0][0]) / (playerBlock[1][0] - playerBlock[0][0]) * 0.9 + 0.05;
-    //console.log('intersectPercent', intersectPercent);
+    const intersectPercent = intersection[0] === playerBlock[0][0] ? 0 : (intersection[0] - playerBlock[0][0]) / (playerBlock[1][0] - playerBlock[0][0]) * 0.9 + 0.05;
     const blockVector = [playerBlock[1][0] - playerBlock[0][0], playerBlock[1][1] - playerBlock[0][1]] as Vector;
     const blockAngle = -1 * ((Math.acos(Geometry.dot([0, 1], blockVector) / (Geometry.vectorNorm([0, 1]) * Geometry.vectorNorm(blockVector))) * (blockVector[0] < 0 ? -1 : 1)) - Math.PI / 2);
-    //console.log(`blockAngle for player ${player.name}`, blockAngle * 180 / Math.PI);
     const reboundAngle = Math.PI * (1 - intersectPercent);
-    //console.log('reboundAngle', reboundAngle * 180 / Math.PI);
     const angle = reboundAngle + blockAngle;
-    //console.log('angle', angle * 180 / Math.PI);
     const newVelocity = previousVelocity * ACCELERATION_FACTOR;
     const dx = Math.cos(angle) * newVelocity;
     const dy = Math.sin(angle) * newVelocity;
-    //console.log('dx,dy', dx, dy)
     this.direction = Geometry.limitToMax([dx, dy], 20);
-    //console.log('***********');
-
     this.move(0.001);
   }
 
