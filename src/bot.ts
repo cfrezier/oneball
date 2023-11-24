@@ -4,7 +4,8 @@ import {Game} from "./game";
 import {Geometry, Vector} from "./geometry";
 
 let id = 1;
-const MAX_MOVE_CHANGE_PERCENT = 0.05;
+const MAX_MOVE_CHANGE_PERCENT = 0.01;
+const VISION_DISTANCE = 400;
 
 export class Bot {
   id = id++;
@@ -43,31 +44,32 @@ export class Bot {
         return {
           //ball,
           distance: Geometry.vectorNorm(pprojected),
-          intersection: Geometry.getIntersection(this.player!.defenseLine, ball.trajectory(1000)),
+          intersection: Geometry.getIntersection(this.player!.defenseLine, ball.trajectory(VISION_DISTANCE)),
           defenseLine: this.player!.defenseLine,
-          trajectory: ball.trajectory(1000)
+          trajectory: ball.trajectory(VISION_DISTANCE)
         };
       });
     ballsSortedByDistance.sort((a, b) => a.distance - b.distance);
 
     const chasingBall = ballsSortedByDistance[0];
-
+    let targetInput = 0.5
     if (chasingBall) {
       const intersection = chasingBall.intersection;
       if (intersection) {
         const coordToUse = intersection[0] === this.player!.defenseLine[0][0] ? 1 : 0;
         const targetPosition = (intersection[coordToUse] - this.player!.defenseLine[0][coordToUse]) / (this.player!.defenseLine[1][coordToUse] - this.player!.defenseLine[0][coordToUse]);
-
-        const targetInput = (this.player!.reverseInput ? 1 - targetPosition : targetPosition);
-
-        const move = this.previousInput > targetInput ?
-          this.previousInput - Math.min(MAX_MOVE_CHANGE_PERCENT, this.previousInput - targetInput) :
-          this.previousInput + Math.min(MAX_MOVE_CHANGE_PERCENT, targetInput - this.previousInput);
-
-        this.previousInput = move;
-
-        queue.processMsg({type: 'input', key: this.key, input: `${move}`}, undefined);
+        targetInput = (this.player!.reverseInput ? 1 - targetPosition : targetPosition);
       }
+    } else {
+      targetInput = 0.5;
     }
+
+    const move = this.previousInput > targetInput ?
+      this.previousInput - Math.min(MAX_MOVE_CHANGE_PERCENT, this.previousInput - targetInput) :
+      this.previousInput + Math.min(MAX_MOVE_CHANGE_PERCENT, targetInput - this.previousInput);
+
+    this.previousInput = move;
+
+    queue.processMsg({type: 'input', key: this.key, input: `${move}`}, undefined);
   }
 }
