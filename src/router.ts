@@ -1,11 +1,27 @@
 import * as fs from "fs";
-import {Handler, Req, Res} from "find-my-way";
+import {Req, Res} from "find-my-way";
 import * as http from "http";
 
 const router = require('find-my-way')({
   defaultRoute: (req: Req<any>, res: Res<any>) => {
-    res.statusCode = 404;
-    res.end();
+    console.log('url', req.url);
+    const fileOpts = ['./static' + req.url, './static' + req.url + '.html'];
+    let found = false;
+    fileOpts.forEach((file) => {
+      try {
+        const data = fs.readFileSync(file, {encoding: 'utf8'});
+        res.statusCode = 200;
+        res.end(data);
+        found = true;
+        console.log('Serving', file);
+      } catch (err) {
+        //console.log(err);
+      }
+    });
+    if (!found) {
+      res.statusCode = 400;
+      res.end();
+    }
   },
   onBadUrl: (path: string, req: Req<any>, res: Res<any>) => {
     res.statusCode = 400;
@@ -14,8 +30,7 @@ const router = require('find-my-way')({
   ignoreTrailingSlash: true
 });
 
-const port: number = 8000;
-const host: string = 'localhost';
+const port: number = 8080;
 
 function readPayload(req: Req<any>) {
   return new Promise((resolve) => {
@@ -70,8 +85,8 @@ router.on(['OPTIONS', 'GET'], '/version', (req: Req<any>, res: Res<any>, params:
 const server = http.createServer((req, res) => {
   router.lookup(req, res);
 });
-server.listen(port, host, undefined, () => {
-  console.log(`Server is running on http://${host}:${port}`);
+server.listen(port, undefined, undefined, () => {
+  console.log(`Server is running on http://...:${port}`);
 });
 
 export {server, router};

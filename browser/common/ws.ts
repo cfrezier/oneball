@@ -1,3 +1,3 @@
 export const createWs = () => {
-  return new WebSocket(window.location.toString().replace("http://", "ws://").replace("8002", "8001"));
+  return new WebSocket(window.location.toString().replace("http://", "ws://").replace(location.port, "8001"));
 }

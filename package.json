@@ -4,12 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run build && npm run static && npx nodemon ./dist/index.js",
+    "start": "npm run build && npx nodemon ./dist/index.js",
     "build": "npm run build:node && npm run build:player && npm run build:server",
     "build:node": "npx tsc",
     "build:player": "npx webpack -c ./browser/player/webpack.config.js",
-    "build:server": "npx webpack -c ./browser/server/webpack.config.js",
-    "static": "killall http-server ; npx http-server ./static -p 8002 &"
+    "build:server": "npx webpack -c ./browser/server/webpack.config.js"
   },
   "author": "",
   "license": "ISC",
