@@ -15,14 +15,14 @@
   "dependencies": {
     "casual": "^1.6.2",
     "formidable": "^2.0.1",
-    "http-server": "^14.1.1",
-    "qr-code-styling": "^1.6.0-rc.1",
+    "qrcode": "^1.5.3",
     "tslib": "^2.6.2",
     "typescript": "^5.2.2",
     "uuid": "^9.0.1",
     "ws": "^8.14.2"
   },
   "devDependencies": {
+    "@types/qrcode": "^1.5.5",
     "@types/uuid": "^9.0.7",
     "@types/ws": "^8.5.9",
     "axios": "^1.0.0",

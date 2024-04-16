@@ -1,5 +1,4 @@
 import {Geometry, Segment, Vector} from "../../src/geometry";
-import {colors} from "../../src/colors";
 
 export class GameDisplay {
   canvas!: HTMLCanvasElement;
@@ -37,29 +36,31 @@ export class GameDisplay {
 
   private drawBalls(balls: { position: Vector, color: string, size: number }[]) {
     balls.forEach((ball) => {
-      const gradient = this.context.createRadialGradient(
-        ball.position[0],
-        ball.position[1],
-        0,
-        ball.position[0],
-        ball.position[1],
-        ball.size
-      );
-      gradient.addColorStop(0, "white");
-      gradient.addColorStop(1, ball.color);
+      if (this.context) {
+        const gradient = this.context.createRadialGradient(
+          ball.position[0],
+          ball.position[1],
+          0,
+          ball.position[0],
+          ball.position[1],
+          ball.size
+        );
+        gradient.addColorStop(0, "white");
+        gradient.addColorStop(1, ball.color);
 
-      this.context.beginPath();
-      this.context.arc(
-        ball.position[0],
-        ball.position[1],
-        ball.size,
-        0,
-        2 * Math.PI
-      );
-      this.context.fillStyle = gradient;
-      this.context.fill();
-      this.context.strokeStyle = ball.color;
-      this.context.stroke();
+        this.context.beginPath();
+        this.context.arc(
+          ball.position[0],
+          ball.position[1],
+          ball.size,
+          0,
+          2 * Math.PI
+        );
+        this.context.fillStyle = gradient;
+        this.context.fill();
+        this.context.strokeStyle = ball.color;
+        this.context.stroke();
+      }
     });
   }
 
