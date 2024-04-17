@@ -27,6 +27,7 @@ export class Player {
   name = 'Player';
   key: string;
   ws?: WebSocket;
+  time: number = 0;
 
   startAngle?: number;
   endAngle?: number;
@@ -104,8 +105,9 @@ export class Player {
     };
   }
 
-  reward() {
+  reward(time: number) {
     this.totalPoints += this.points;
+    this.time += time;
     this.points = 0;
     this.ws?.send(JSON.stringify({type: 'score', score: this.totalPoints}));
   }
@@ -121,6 +123,7 @@ export class Player {
   static from(playerObj: Player) {
     const player = new Player(playerObj.name, playerObj.key);
     player.totalPoints = playerObj.totalPoints;
+    player.time = playerObj.time;
     player.connected = false;
     return player;
   }
@@ -128,6 +131,7 @@ export class Player {
   serializable() {
     return {
       totalPoints: this.totalPoints,
+      time: this.time,
       name: this.name,
       key: this.key,
     };

@@ -15,6 +15,7 @@ export class Game {
   finished = false;
   started: boolean = false;
   ready = false;
+  startTime?: Date;
 
   constructor(queue: Queue) {
     this.queue = queue;
@@ -40,6 +41,7 @@ export class Game {
     if (this.players.length > 1) {
       this.started = true;
       this.queue.launchGame();
+      this.startTime = new Date();
     } else {
       console.log(`Not enough players... retry in ${RETRY_TIME}s`);
       this.startDate = new Date().getTime() + 1000 * QUEUE_TIME;
@@ -115,6 +117,6 @@ export class Game {
   }
 
   reward() {
-    this.players.forEach((player) => player.reward());
+    this.players.forEach((player) => player.reward(Math.round(new Date().getTime() - (this.startTime?.getTime() ?? 0)) / 1000));
   }
 }
