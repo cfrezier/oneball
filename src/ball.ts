@@ -1,7 +1,7 @@
 import {Geometry, Segment, Vector} from "./geometry";
 import {Player} from "./player";
 
-const ACCELERATION_FACTOR = 1.1;
+const ACCELERATION_FACTOR = 1.5;
 
 export class Ball {
   color = '#00FFFF';

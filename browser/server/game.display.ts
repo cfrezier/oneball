@@ -21,7 +21,9 @@ export class GameDisplay {
     this.debug = window.document.body.querySelector(".debug-game-state")!;
   }
 
-  display(payload: any) {
+  previousPayload = undefined;
+
+  display(payload: any = this.previousPayload) {
     if (this.debug) {
       this.debug.innerText = JSON.stringify(payload.state);
     }
@@ -29,6 +31,8 @@ export class GameDisplay {
     if (this.context) {
       this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
+
+    this.previousPayload = payload;
 
     this.drawCounter(payload);
     this.drawBalls(payload.state.balls);
@@ -120,13 +124,16 @@ export class GameDisplay {
 
   private drawCounter(payload: any) {
     if (this.context) {
-      const value = Math.round((new Date(payload.state.startDate).getTime() - new Date().getTime()) / 1000);
-      if (!isNaN(value) && value > 0) {
-        this.context.font = "64px serif";
+      const timeToStart = (new Date(payload.state.startDate).getTime() - new Date().getTime()) / 1000;
+      const seconds = Math.ceil(timeToStart);
+      const progress = timeToStart - Math.ceil(timeToStart);
+      if (!isNaN(seconds) && seconds > 0) {
+        const fontSize = Math.round(200 * (1 - progress));
+        this.context.font = `${fontSize}px serif`;
         this.context.fillStyle = '#FFFFFF';
-        this.context.fillText(`${value}`, Geometry.GLOBAL_WIDTH / 2, Geometry.GLOBAL_HEIGHT / 2);
+        this.context.fillText(`${seconds}`, (Geometry.GLOBAL_WIDTH - fontSize / 3) / 2, (Geometry.GLOBAL_HEIGHT + fontSize / 2) / 2);
         setTimeout(() => {
-          this.display(payload);
+          this.display();
         }, 100);
       }
     }

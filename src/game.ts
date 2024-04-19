@@ -4,7 +4,7 @@ import {Ball} from "./ball";
 import {Geometry} from "./geometry";
 
 const MAX_PLAYERS = 8;
-const QUEUE_TIME = 3;
+const QUEUE_TIME = 5;
 const RETRY_TIME = 10;
 
 export class Game {
@@ -16,6 +16,7 @@ export class Game {
   started: boolean = false;
   ready = false;
   startTime?: Date;
+  initialized = false;
 
   constructor(queue: Queue) {
     this.queue = queue;
@@ -33,6 +34,8 @@ export class Game {
         this.startDate = new Date().getTime() + 1000 * QUEUE_TIME;
         setTimeout(() => this.start(), 1000 * QUEUE_TIME);
         this.queue.initGame();
+      }
+      if (this.initialized) {
         this.queue.sendGameToServer();
       }
     }
@@ -54,6 +57,7 @@ export class Game {
   }
 
   init() {
+    this.initialized = true;
     this.balls = this.players.map(player => new Ball({key: player.key, color: player.color}));
     console.log("Game initialized");
   }
