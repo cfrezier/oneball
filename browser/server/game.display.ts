@@ -29,6 +29,8 @@ export class GameDisplay {
     if (this.context) {
       this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
+
+    this.drawCounter(payload);
     this.drawBalls(payload.state.balls);
     this.drawPlayers(payload.state.players);
     //this.drawAxes();
@@ -114,5 +116,19 @@ export class GameDisplay {
       this.context.stroke();
       this.context.fillText(axe[3], ...axe[1]);
     });
+  }
+
+  private drawCounter(payload: any) {
+    if (this.context) {
+      const value = Math.round((new Date(payload.state.startDate).getTime() - new Date().getTime()) / 1000);
+      if (!isNaN(value) && value > 0) {
+        this.context.font = "64px serif";
+        this.context.fillStyle = '#FFFFFF';
+        this.context.fillText(`${value}`, Geometry.GLOBAL_WIDTH / 2, Geometry.GLOBAL_HEIGHT / 2);
+        setTimeout(() => {
+          this.display(payload);
+        }, 100);
+      }
+    }
   }
 }
