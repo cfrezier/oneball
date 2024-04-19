@@ -131,7 +131,7 @@ export class GameDisplay {
         const fontSize = Math.round(200 * (1 - progress));
         this.context.font = `${fontSize}px serif`;
         this.context.fillStyle = '#FFFFFF';
-        this.context.fillText(`${seconds}`, (Geometry.GLOBAL_WIDTH - fontSize / 3) / 2, (Geometry.GLOBAL_HEIGHT + fontSize / 2) / 2);
+        this.context.fillText(`${seconds}`, (Geometry.GLOBAL_WIDTH - fontSize / 2) / 2, (Geometry.GLOBAL_HEIGHT + fontSize / 2) / 2);
         setTimeout(() => {
           this.display();
         }, 100);
