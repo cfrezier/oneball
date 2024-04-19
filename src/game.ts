@@ -32,6 +32,8 @@ export class Game {
         console.log(`Starting in ${QUEUE_TIME}s`);
         this.startDate = new Date().getTime() + 1000 * QUEUE_TIME;
         setTimeout(() => this.start(), 1000 * QUEUE_TIME);
+        this.queue.initGame();
+        this.queue.sendGameToServer();
       }
     }
   }
@@ -40,7 +42,7 @@ export class Game {
     this.ready = true;
     if (this.players.length > 1) {
       this.started = true;
-      this.queue.launchGame();
+      this.queue.executeGame();
       this.startTime = new Date();
     } else {
       console.log(`Not enough players... retry in ${RETRY_TIME}s`);
@@ -52,7 +54,6 @@ export class Game {
   }
 
   init() {
-    this.started = true;
     this.balls = this.players.map(player => new Ball({key: player.key, color: player.color}));
     console.log("Game initialized");
   }

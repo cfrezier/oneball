@@ -66,9 +66,19 @@ export class Queue {
         const playerInCurrentQueue = this.nextGame?.players.find((player) => payload.key === player.key);
 
         if (!playerInCurrentGame && !playerInCurrentQueue && !!player) {
-          console.log(`Player ${player.name} queuing for next game`);
-          this.nextGame.apply(player);
-          this.sendQueueUpdate();
+          if (this.currentGame && this.currentGame.started) {
+            console.log(`Player ${player.name} queuing for next game`);
+            this.nextGame.apply(player);
+            this.sendQueueUpdate();
+          } else {
+            console.log(`Player ${player.name} queuing for game about to be launched`);
+            if(!!this.currentGame) {
+              this.currentGame!.apply(player);
+            } else {
+              this.nextGame!.apply(player);
+            }
+            this.sendQueueUpdate();
+          }
         }
         break;
       case 'input':
@@ -87,16 +97,10 @@ export class Queue {
     }
   }
 
-  launchGame() {
-    if (!this.currentGame) {
-      this.currentGame = this.nextGame!;
-      this.nextGame = undefined;
-      this.currentGame.init();
-      this.executeGame();
-    } else {
-      console.log("Waiting for previous game to end...");
-      setTimeout(() => this.launchGame(), 1000);
-    }
+  initGame() {
+    this.currentGame = this.nextGame!;
+    this.nextGame = undefined;
+    this.currentGame.init();
   }
 
   executeGame() {
@@ -125,7 +129,7 @@ export class Queue {
     this.servers = this.servers.filter(server => server !== ws);
   }
 
-  private sendGameToServer() {
+  public sendGameToServer() {
     const state = JSON.stringify({type: 'game-state', state: this.currentGame?.state()});
     this.servers.forEach((ws) => ws?.send(state));
   }
@@ -165,9 +169,9 @@ export class Queue {
   }
 
   private linkBot(player: Player) {
-    if(player?.key.indexOf("key-bot") === 0) {
-        const bot = this.bots.find(bot => bot.key === player.key);
-        bot?.link(player);
+    if (player?.key.indexOf("key-bot") === 0) {
+      const bot = this.bots.find(bot => bot.key === player.key);
+      bot?.link(player);
     }
   }
 
