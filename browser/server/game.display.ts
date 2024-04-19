@@ -76,7 +76,7 @@ export class GameDisplay {
     if (this.context) {
       // Draw DefenseLines
       this.context.lineWidth = 1
-      this.context.strokeStyle = "rgba(176, 176, 176, 0.25)";
+      this.context.strokeStyle = "rgba(224,224,224,0.5)";
       players.forEach(player => {
         this.context.beginPath();
         this.context.moveTo(...player.defenseLine[0]);
@@ -88,6 +88,7 @@ export class GameDisplay {
       this.context.lineWidth = 3
       players.forEach(player => {
         this.context.strokeStyle = player.color;
+        this.context.lineWidth = 5;
         this.context.beginPath();
         this.context.moveTo(...player.block[0]);
         this.context.lineTo(...player.block[1]);
