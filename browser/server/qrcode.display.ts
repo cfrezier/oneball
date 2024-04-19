@@ -5,7 +5,7 @@ export class QrCodeDisplay {
     const div = document.getElementById('qr-code');
     if (div) {
       div.innerHTML = "";
-      const url = window.location.toString().replace("server.html", "player.html");
+      const url = window.location.toString().replace("server", "player");
       QRCode.toDataURL(url)
         .then(dataUrl => {
           const img = document.createElement('img');
@@ -15,7 +15,7 @@ export class QrCodeDisplay {
           img.width = 250;
         })
         .catch(err => {
-          console.error(err)
+          console.error(err);
         });
     } else {
       this.init();

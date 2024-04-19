@@ -7,7 +7,7 @@ import {Simulate} from "./simulate";
 
 const PORT = 8081;
 const wss = new WebSocket.Server({port: PORT});
-const queue = new Queue(process.argv[2] ?? '/tmp/oneball-save.json', 5);
+const queue = new Queue(process.argv[2] ?? '/tmp/oneball-save.json', 8);
 //Simulate.init(queue);
 
 wss.on('connection', (ws) => {

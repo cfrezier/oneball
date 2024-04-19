@@ -19,6 +19,7 @@ const router = require('find-my-way')({
       }
     });
     if (!found) {
+      console.error('not found', fileOpts);
       res.statusCode = 400;
       res.end();
     }
@@ -85,7 +86,7 @@ router.on(['OPTIONS', 'GET'], '/version', (req: Req<any>, res: Res<any>, params:
 const server = http.createServer((req, res) => {
   router.lookup(req, res);
 });
-server.listen(port, undefined, undefined, () => {
+server.listen(port, '0.0.0.0', undefined, () => {
   console.log(`Server is running on http://...:${port}`);
 });
 

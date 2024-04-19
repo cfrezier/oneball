@@ -117,6 +117,7 @@ export class Game {
   }
 
   reward() {
-    this.players.forEach((player) => player.reward(Math.round(new Date().getTime() - (this.startTime?.getTime() ?? 0)) / 1000));
+    const elapsed = Math.round(new Date().getTime() - (this.startTime?.getTime() ?? 0)) / 1000;
+    this.players.forEach((player) => player.reward(elapsed));
   }
 }
