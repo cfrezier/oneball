@@ -15,6 +15,7 @@
   "dependencies": {
     "casual": "^1.6.2",
     "formidable": "^2.0.1",
+    "qr-code-styling": "^1.6.0-rc.1",
     "qrcode": "^1.5.3",
     "tslib": "^2.6.2",
     "typescript": "^5.2.2",
