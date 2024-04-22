@@ -4,4 +4,4 @@ COPY ./node_modules ./node_modules
 COPY ./dist ./dist
 COPY ./static ./static
 
-ENTRYPOINT ["node", "./dist/index.js"]
+ENTRYPOINT ["node", "./dist/src/index.js", "--queueTime", "10"]
