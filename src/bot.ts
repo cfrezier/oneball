@@ -45,10 +45,11 @@ export class Bot {
           distance: Geometry.vectorNorm(pprojected),
           intersection: Geometry.getIntersection(this.player!.defenseLine, ball.trajectory(CONFIG.VISION_DISTANCE)),
           defenseLine: this.player!.defenseLine,
-          trajectory: ball.trajectory(CONFIG.VISION_DISTANCE)
+          trajectory: ball.trajectory(CONFIG.VISION_DISTANCE),
+          value: ball.key === this.key ? 5 : 1
         };
       });
-    ballsSortedByDistance.sort((a, b) => a.distance - b.distance);
+    ballsSortedByDistance.sort((a, b) => a.distance / a.value - b.distance / b.value);
 
     const chasingBall = ballsSortedByDistance[0];
     let targetInput = 0.5
