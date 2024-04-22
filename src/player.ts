@@ -3,6 +3,7 @@ import {v4 as uuid} from 'uuid';
 import {colors} from "./colors";
 import {Geometry, Segment, Vector} from "./geometry";
 import {Ball} from "./ball";
+import {CONFIG} from "../browser/common/config";
 
 const START_BLOCK_SIZE_PERCENT = 0.1;
 const MIN_BLOCK_SIZE_PERCENT = 0.02;
@@ -57,10 +58,10 @@ export class Player {
     this.endAngle = 2 * Math.PI * (idx + 1) / arr.length;
     this.sizePercent = START_BLOCK_SIZE_PERCENT;
     this.defenseLine = [
-      [(0.5 + Math.cos(this.startAngle) / 2) * Geometry.GLOBAL_WIDTH,
-        (0.5 + Math.sin(this.startAngle) / 2) * Geometry.GLOBAL_HEIGHT],
-      [(0.5 + Math.cos(this.endAngle) / 2) * Geometry.GLOBAL_WIDTH,
-        (0.5 + Math.sin(this.endAngle) / 2) * Geometry.GLOBAL_HEIGHT]
+      [(0.5 + Math.cos(this.startAngle) / 2) * CONFIG.GLOBAL_WIDTH,
+        (0.5 + Math.sin(this.startAngle) / 2) * CONFIG.GLOBAL_HEIGHT],
+      [(0.5 + Math.cos(this.endAngle) / 2) * CONFIG.GLOBAL_WIDTH,
+        (0.5 + Math.sin(this.endAngle) / 2) * CONFIG.GLOBAL_HEIGHT]
     ]
     this.input = 0.5;
     this.reverseInput = this.defenseLine[0][0] > this.defenseLine[1][0];

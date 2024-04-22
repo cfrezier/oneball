@@ -1,10 +1,10 @@
+import {CONFIG} from "../browser/common/config";
+
 export type Segment = [[number, number], [number, number]];
 
 export type Vector = [number, number];
 
 export class Geometry {
-  static GLOBAL_HEIGHT = 1200;
-  static GLOBAL_WIDTH = 1200;
 
   static getIntersection(segment1: Segment, segment2: Segment) {
     // https://stackoverflow.com/questions/563198/how-do-you-detect-where-two-line-segments-intersect
@@ -41,8 +41,8 @@ export class Geometry {
 
   static reflect(direction: Vector, defenseLine: Segment) {
     // https://stackoverflow.com/questions/1243614/how-do-i-calculate-the-normal-vector-of-a-line-segment
-    const normX = (2) * (defenseLine[1][0] - defenseLine[0][0]) / Geometry.GLOBAL_WIDTH;
-    const normY = (2) * (defenseLine[1][1] - defenseLine[0][1]) / Geometry.GLOBAL_HEIGHT;
+    const normX = (2) * (defenseLine[1][0] - defenseLine[0][0]) / CONFIG.GLOBAL_WIDTH;
+    const normY = (2) * (defenseLine[1][1] - defenseLine[0][1]) / CONFIG.GLOBAL_HEIGHT;
     const normal = [-normY, normX] as [number, number];
 
     // https://math.stackexchange.com/questions/13261/how-to-get-a-reflection-vector
@@ -56,5 +56,9 @@ export class Geometry {
 
   static mult(scalar: number, vector: [number, number]) {
     return [scalar * vector[0], scalar * vector[1]] as Vector;
+  }
+
+  static getAngle(blockVector: [number, number]) {
+    return -1 * ((Math.acos(Geometry.dot([0, 1], blockVector) / (Geometry.vectorNorm([0, 1]) * Geometry.vectorNorm(blockVector))) * (blockVector[0] < 0 ? -1 : 1)) - Math.PI / 2);
   }
 }

@@ -2,10 +2,9 @@ import {Queue} from "./queue";
 import {Player} from "./player";
 import {Game} from "./game";
 import {Geometry, Vector} from "./geometry";
+import {CONFIG} from "../browser/common/config";
 
 let id = 1;
-const MAX_MOVE_CHANGE_PERCENT = 0.01;
-const VISION_DISTANCE = 400;
 
 export class Bot {
   id = id++;
@@ -44,9 +43,9 @@ export class Bot {
         return {
           //ball,
           distance: Geometry.vectorNorm(pprojected),
-          intersection: Geometry.getIntersection(this.player!.defenseLine, ball.trajectory(VISION_DISTANCE)),
+          intersection: Geometry.getIntersection(this.player!.defenseLine, ball.trajectory(CONFIG.VISION_DISTANCE)),
           defenseLine: this.player!.defenseLine,
-          trajectory: ball.trajectory(VISION_DISTANCE)
+          trajectory: ball.trajectory(CONFIG.VISION_DISTANCE)
         };
       });
     ballsSortedByDistance.sort((a, b) => a.distance - b.distance);
@@ -65,8 +64,8 @@ export class Bot {
     }
 
     const move = this.previousInput > targetInput ?
-      this.previousInput - Math.min(MAX_MOVE_CHANGE_PERCENT, this.previousInput - targetInput) :
-      this.previousInput + Math.min(MAX_MOVE_CHANGE_PERCENT, targetInput - this.previousInput);
+      this.previousInput - Math.min(CONFIG.MAX_MOVE_CHANGE_PERCENT, this.previousInput - targetInput) :
+      this.previousInput + Math.min(CONFIG.MAX_MOVE_CHANGE_PERCENT, targetInput - this.previousInput);
 
     this.previousInput = move;
 

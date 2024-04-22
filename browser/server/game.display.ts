@@ -1,4 +1,5 @@
 import {Geometry, Segment, Vector} from "../../src/geometry";
+import {CONFIG} from "../common/config";
 
 export class GameDisplay {
   canvas!: HTMLCanvasElement;
@@ -14,8 +15,8 @@ export class GameDisplay {
     this.canvas = window.document.body.querySelector(".game-canvas")!;
     this.context = this.canvas.getContext('2d')!;
     this.size = Math.min(this.canvas.getBoundingClientRect().width, this.canvas.getBoundingClientRect().height);
-    this.canvas.width = Geometry.GLOBAL_WIDTH;
-    this.canvas.height = Geometry.GLOBAL_HEIGHT;
+    this.canvas.width = CONFIG.GLOBAL_WIDTH;
+    this.canvas.height = CONFIG.GLOBAL_HEIGHT;
     this.canvas.style.width = `${this.size}px`;
     this.canvas.style.height = `${this.size}px`;
     this.debug = window.document.body.querySelector(".debug-game-state")!;
@@ -103,8 +104,18 @@ export class GameDisplay {
 
       this.context.font = "18px serif";
       players.forEach(player => {
+        this.context.save();
+        this.context.translate((player.defenseLine[1][0] + player.defenseLine[0][0]) / 2, (player.defenseLine[1][1] + player.defenseLine[0][1]) / 2);
+        const blockVector = [player.block[1][0] - player.block[0][0], player.block[1][1] - player.block[0][1]] as Vector;
+        const angle = Geometry.getAngle(blockVector);
+        const additionnalAngle = (player.defenseLine[1][0] < player.defenseLine[0][0]) ? Math.PI : 0;
+        this.context.rotate(angle + additionnalAngle);
+        this.context.translate(0, additionnalAngle !== 0 ? 20 : -10);
+        const nameLength = this.context.measureText(player.name);
+        this.context.translate(-nameLength.width / 2, 0);
         this.context.fillStyle = player.color;
-        this.context.fillText(player.name, (player.defenseLine[1][0] + player.defenseLine[0][0]) / 2, (player.defenseLine[1][1] + player.defenseLine[0][1]) / 2);
+        this.context.fillText(player.name, 0, 0);
+        this.context.restore();
       });
     }
   }
@@ -131,7 +142,7 @@ export class GameDisplay {
         const fontSize = Math.round(200 * (1 - progress));
         this.context.font = `${fontSize}px serif`;
         this.context.fillStyle = '#FFFFFF';
-        this.context.fillText(`${seconds}`, (Geometry.GLOBAL_WIDTH - fontSize / 2) / 2, (Geometry.GLOBAL_HEIGHT + fontSize / 2) / 2);
+        this.context.fillText(`${seconds}`, (CONFIG.GLOBAL_WIDTH - fontSize / 2) / 2, (CONFIG.GLOBAL_HEIGHT + fontSize / 2) / 2);
         setTimeout(() => {
           this.display();
         }, 100);

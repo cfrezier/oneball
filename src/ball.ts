@@ -1,12 +1,12 @@
 import {Geometry, Segment, Vector} from "./geometry";
 import {Player} from "./player";
+import {CONFIG} from "../browser/common/config";
 
-const ACCELERATION_FACTOR = 1.5;
 
 export class Ball {
   color = '#00FFFF';
   key: string;
-  position: Vector = [Geometry.GLOBAL_WIDTH / 2, Geometry.GLOBAL_HEIGHT / 2]
+  position: Vector = [CONFIG.GLOBAL_WIDTH / 2, CONFIG.GLOBAL_HEIGHT / 2]
   lastBouncePlayer?: Player;
   direction: Vector;
   size: number;
@@ -38,7 +38,7 @@ export class Ball {
     const blockAngle = -1 * ((Math.acos(Geometry.dot([0, 1], blockVector) / (Geometry.vectorNorm([0, 1]) * Geometry.vectorNorm(blockVector))) * (blockVector[0] < 0 ? -1 : 1)) - Math.PI / 2);
     const reboundAngle = Math.PI * (1 - intersectPercent);
     const angle = reboundAngle + blockAngle;
-    const newVelocity = previousVelocity * ACCELERATION_FACTOR;
+    const newVelocity = previousVelocity * CONFIG.ACCELERATION_FACTOR;
     const dx = Math.cos(angle) * newVelocity;
     const dy = Math.sin(angle) * newVelocity;
     this.direction = Geometry.limitToMax([dx, dy], 20);
@@ -59,6 +59,6 @@ export class Ball {
   }
 
   checkOutsideBounds() {
-    return this.position[0] < 0 || this.position[1] < 0 || this.position[0] > Geometry.GLOBAL_WIDTH || this.position[1] > Geometry.GLOBAL_HEIGHT;
+    return this.position[0] < 0 || this.position[1] < 0 || this.position[0] > CONFIG.GLOBAL_WIDTH || this.position[1] > CONFIG.GLOBAL_HEIGHT;
   }
 }

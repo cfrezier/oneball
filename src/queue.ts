@@ -4,8 +4,7 @@ import {DataMsg} from "./data.message";
 import {WebSocket} from "ws";
 import * as fs from "fs";
 import {Bot} from "./bot";
-
-export const GAME_LOOP_MS = 10;
+import {CONFIG} from "../browser/common/config";
 
 export class Queue {
   players = [] as Player[];
@@ -72,7 +71,7 @@ export class Queue {
             this.sendQueueUpdate();
           } else {
             console.log(`Player ${player.name} queuing for game about to be launched`);
-            if(!!this.currentGame) {
+            if (!!this.currentGame) {
               this.currentGame!.apply(player);
             } else {
               this.nextGame!.apply(player);
@@ -107,7 +106,7 @@ export class Queue {
     this.currentGame!.execute();
     this.sendGameToServer();
     if (!this.currentGame!.finished) {
-      setTimeout(() => this.executeGame(), GAME_LOOP_MS);
+      setTimeout(() => this.executeGame(), CONFIG.GAME_LOOP_MS);
       this.sendCurrentScoreToServer();
       this.sendHighScoreToServer();
       this.askBotInputs();

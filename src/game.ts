@@ -2,10 +2,8 @@ import {Player} from "./player";
 import {Queue} from "./queue";
 import {Ball} from "./ball";
 import {Geometry} from "./geometry";
+import {CONFIG} from "../browser/common/config";
 
-const MAX_PLAYERS = 8;
-const QUEUE_TIME = 5;
-const RETRY_TIME = 10;
 
 export class Game {
   players: Player[] = [];
@@ -24,15 +22,15 @@ export class Game {
 
   apply(player: Player) {
     if (!this.players.filter(player => player.connected).find(playerInGame => playerInGame.key === player.key)) {
-      if (this.players.length < MAX_PLAYERS) {
+      if (this.players.length < CONFIG.MAX_PLAYERS) {
         this.players.push(player);
         this.players.forEach((player, idx, arr) => player.init(idx, arr));
         player.queued();
       }
       if (this.players.length > 2 && !this.startDate) {
-        console.log(`Starting in ${QUEUE_TIME}s`);
-        this.startDate = new Date().getTime() + 1000 * QUEUE_TIME;
-        setTimeout(() => this.start(), 1000 * QUEUE_TIME);
+        console.log(`Starting in ${CONFIG.QUEUE_TIME}s`);
+        this.startDate = new Date().getTime() + 1000 * CONFIG.QUEUE_TIME;
+        setTimeout(() => this.start(), 1000 * CONFIG.QUEUE_TIME);
         this.queue.initGame();
       }
       if (this.initialized) {
@@ -48,11 +46,11 @@ export class Game {
       this.queue.executeGame();
       this.startTime = new Date();
     } else {
-      console.log(`Not enough players... retry in ${RETRY_TIME}s`);
-      this.startDate = new Date().getTime() + 1000 * QUEUE_TIME;
+      console.log(`Not enough players... retry in ${CONFIG.RETRY_TIME}s`);
+      this.startDate = new Date().getTime() + 1000 * CONFIG.QUEUE_TIME;
       setTimeout(() => {
         this.start();
-      }, RETRY_TIME * 1000);
+      }, CONFIG.RETRY_TIME * 1000);
     }
   }
 
@@ -113,8 +111,8 @@ export class Game {
       players: this.players.map(player => player.state()).sort((p1, p2) => p1.points - p2.points),
       balls: this.balls.map(ball => ball.state()),
       startDate: this.startDate,
-      width: Geometry.GLOBAL_WIDTH,
-      height: Geometry.GLOBAL_HEIGHT,
+      width: CONFIG.GLOBAL_WIDTH,
+      height: CONFIG.GLOBAL_HEIGHT,
       finished: this.finished,
       started: this.started,
       ready: this.ready,
