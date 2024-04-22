@@ -2,6 +2,25 @@ import * as fs from "fs";
 import {Req, Res} from "find-my-way";
 import * as http from "http";
 
+function getContentType(file: string) {
+  if (file.endsWith('.html')) {
+    return 'text/html';
+  }
+  if (file.endsWith('.js')) {
+    return 'text/javascript';
+  }
+  if (file.endsWith('.json')) {
+    return 'application/json';
+  }
+  if (file.endsWith('.png')) {
+    return 'image/png';
+  }
+  if (file.endsWith('.svg')) {
+    return 'image/svg+xml';
+  }
+  return 'text/plain';
+}
+
 const router = require('find-my-way')({
   defaultRoute: (req: Req<any>, res: Res<any>) => {
     console.log('url', req.url);
@@ -9,8 +28,10 @@ const router = require('find-my-way')({
     let found = false;
     fileOpts.forEach((file) => {
       try {
-        const data = fs.readFileSync(file, {encoding: 'utf8'});
+        const contentType = getContentType(file);
+        const data = fs.readFileSync(file, contentType.startsWith('image') ? {} : {encoding: 'utf8'});
         res.statusCode = 200;
+        res.setHeader('Content-Type', contentType);
         res.end(data);
         found = true;
         console.log('Serving', file);

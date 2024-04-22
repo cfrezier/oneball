@@ -24,14 +24,12 @@ export class QrCodeDisplay {
         backgroundOptions: {
           color: "#000000",
         },
-        /*
         image: "./img/onepoint.png",
         imageOptions: {
           crossOrigin: "anonymous",
           imageSize: 0.5,
           margin: 0
         }
-        */
       });
     }
     return this._qrCodeDiv!;

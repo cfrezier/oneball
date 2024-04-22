@@ -141,7 +141,7 @@ export class GameDisplay {
       if (!isNaN(seconds) && seconds > 0) {
         const fontSize = Math.round(200 * (1 - progress));
         this.context.font = `${fontSize}px serif`;
-        this.context.fillStyle = '#FFFFFF';
+        this.context.fillStyle = '#009EDF';
         this.context.fillText(`${seconds}`, (CONFIG.GLOBAL_WIDTH - fontSize / 2) / 2, (CONFIG.GLOBAL_HEIGHT + fontSize / 2) / 2);
         setTimeout(() => {
           this.display();
