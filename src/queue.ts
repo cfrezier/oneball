@@ -101,7 +101,6 @@ export class Queue {
   initGame() {
     this.currentGame = this.nextGame!;
     this.nextGame = undefined;
-    this.currentGame.init();
   }
 
   executeGame() {

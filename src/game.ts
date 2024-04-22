@@ -14,7 +14,6 @@ export class Game {
   started: boolean = false;
   ready = false;
   startTime?: Date;
-  initialized = false;
 
   constructor(queue: Queue) {
     this.queue = queue;
@@ -26,6 +25,7 @@ export class Game {
         this.players.push(player);
         this.players.forEach((player, idx, arr) => player.init(idx, arr));
         player.queued();
+        this.createBalls();
       }
       if (this.players.length > (CONFIG.MIN_PLAYERS - 1) && !this.startDate) {
         console.log(`Starting in ${CONFIG.QUEUE_TIME}s`);
@@ -33,9 +33,7 @@ export class Game {
         setTimeout(() => this.start(), 1000 * CONFIG.QUEUE_TIME);
         this.queue.initGame();
       }
-      if (this.initialized) {
-        this.queue.sendGameToServer();
-      }
+      this.queue.sendGameToServer();
     }
   }
 
@@ -54,10 +52,8 @@ export class Game {
     }
   }
 
-  init() {
-    this.initialized = true;
+  createBalls() {
     this.balls = this.players.map(player => new Ball({key: player.key, color: player.color}));
-    console.log("Game initialized");
   }
 
   execute() {
