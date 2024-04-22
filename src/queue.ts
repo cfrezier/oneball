@@ -53,6 +53,7 @@ export class Queue {
           previous.connect(ws);
           this.linkBot(previous);
         }
+        this.sendConfigToClient(ws!);
         this.sendHighScoreToServer();
         break;
       case 'queue':
@@ -89,6 +90,7 @@ export class Queue {
         break;
       case 'server':
         this.servers.push(ws);
+        this.sendConfigToClient(ws!);
         this.sendQueueUpdate();
         this.sendGameToServer();
         this.sendHighScoreToServer();
@@ -180,5 +182,16 @@ export class Queue {
 
   private askBotInputs() {
     this.bots.forEach(bot => bot.newInput(this.currentGame!, this));
+  }
+
+  private sendConfigToClient(ws: WebSocket) {
+    ws?.send(
+      JSON.stringify({
+        sendConfigToClient: 'config',
+        payload: {
+          ...CONFIG
+        }
+      })
+    );
   }
 }

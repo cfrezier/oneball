@@ -8,4 +8,4 @@ export const CONFIG = {
   MAX_PLAYERS: 8,
   QUEUE_TIME: 2,
   RETRY_TIME: 10
-}
+} as { [key: string]: number };

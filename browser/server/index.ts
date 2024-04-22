@@ -3,6 +3,7 @@ import {ScoreDisplay} from "./score.display";
 import {GameDisplay} from "./game.display";
 import {QrCodeDisplay} from "./qrcode.display";
 import {createWs} from '../common/ws';
+import {CONFIG} from "../common/config";
 
 const queue = new QueueDisplay();
 const score = new ScoreDisplay();
@@ -23,6 +24,9 @@ const connect = () => {
     const payload = JSON.parse(event.data.toString());
 
     switch (payload.type) {
+      case 'config':
+        Object.keys(payload).forEach(key => CONFIG[key] = payload[key])
+        break;
       case 'game-state':
         const game_payload = {
           state: {
