@@ -25,7 +25,7 @@ export class Queue {
     });
     this.bots = [];
     for (let i = 0; i < bots; i++) {
-      this.bots.push(new Bot(this))
+      this.bots.push(new Bot(this));
     }
   }
 

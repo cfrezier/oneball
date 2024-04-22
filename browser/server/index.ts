@@ -32,6 +32,7 @@ const connect = () => {
 
     switch (payload.type) {
       case 'config':
+        // @ts-ignore
         Object.keys(payload).forEach(key => CONFIG[key] = payload[key])
         break;
       case 'game-state':

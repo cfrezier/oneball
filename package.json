@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run build && npx nodemon ./dist/src/index.js",
+    "start:dev": "npm run build && npx nodemon ./dist/src/index.js --bots 5",
+    "start": "npm run build && npx nodemon ./dist/src/index.js --queueTime 10",
     "build": "npm run build:node && npm run build:player && npm run build:server",
     "build:node": "npx tsc",
     "build:player": "npx webpack -c ./browser/player/webpack.config.js",
@@ -20,12 +21,14 @@
     "tslib": "^2.6.2",
     "typescript": "^5.2.2",
     "uuid": "^9.0.1",
-    "ws": "^8.14.2"
+    "ws": "^8.14.2",
+    "yargs": "^17.7.2"
   },
   "devDependencies": {
     "@types/qrcode": "^1.5.5",
     "@types/uuid": "^9.0.7",
     "@types/ws": "^8.5.9",
+    "@types/yargs": "^17.0.32",
     "axios": "^1.0.0",
     "find-my-way": "^7.0.0",
     "nodemon": "^3.0.1",
