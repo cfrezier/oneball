@@ -145,7 +145,7 @@ export class GameDisplay {
         this.context.fillText(`${seconds}`, (CONFIG.GLOBAL_WIDTH - fontSize / 2) / 2, (CONFIG.GLOBAL_HEIGHT + fontSize / 2) / 2);
         setTimeout(() => {
           this.display();
-        }, 100);
+        }, 10);
       }
     }
   }

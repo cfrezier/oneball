@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run build && npx nodemon ./dist/index.js",
+    "start": "npm run build && npx nodemon ./dist/src/index.js",
     "build": "npm run build:node && npm run build:player && npm run build:server",
     "build:node": "npx tsc",
     "build:player": "npx webpack -c ./browser/player/webpack.config.js",
