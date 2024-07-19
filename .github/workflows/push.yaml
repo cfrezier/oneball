@@ -14,7 +14,7 @@ concurrency:
 jobs:
   build:
     name: Build and push image
-    runs-on: ubuntu
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
