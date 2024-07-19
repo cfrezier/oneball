@@ -4,6 +4,7 @@ import {v4} from "uuid";
 import {QueueComponent} from "./queue.component";
 import {createWs} from '../common/ws';
 import {ScoreComponent} from "./score.component";
+import {CONFIG} from "../common/config";
 
 const STORAGE_KEY = 'oneball-key';
 
@@ -27,44 +28,52 @@ const propagateAuth = () => {
   queueComponent.show();
 };
 
-const connect = () => {
-  ws = createWs();
+fetch('/config.json').then(config => {
+  config.json().then(json => {
+    // @ts-ignore
+    Object.keys(json).forEach(key => CONFIG[key] = json[key])
+    console.log(JSON.stringify(CONFIG), 4);
 
-  nameComponent.init(propagateAuth);
-  inputComponent.init(ws, key);
-  queueComponent.init(ws, key);
-  scoreComponent.init();
+    const connect = () => {
+      ws = createWs();
 
-  ws.addEventListener('open', () => {
-    console.log("connected.");
-  });
+      nameComponent.init(propagateAuth);
+      inputComponent.init(ws, key);
+      queueComponent.init(ws, key);
+      scoreComponent.init();
 
-  ws.addEventListener('close', (event) => {
-    setTimeout(() => connect(), isInGame ? 10 : 1000);
-  });
+      ws.addEventListener('open', () => {
+        console.log("connected.");
+      });
 
-  ws.addEventListener("message", function (event) {
-    const payload = JSON.parse(event.data.toString());
+      ws.addEventListener('close', (event) => {
+        setTimeout(() => connect(), isInGame ? 10 : 1000);
+      });
 
-    switch (payload.type) {
-      case 'queued':
-        queueComponent.hide();
-        inputComponent.show(payload.color, nameComponent.value());
-        isInGame = true;
-        break;
-      case 'can-queue':
-        queueComponent.show();
-        inputComponent.hide();
-        isInGame = false;
-        break;
-      case 'score':
-        scoreComponent.display(payload.score);
-        break;
+      ws.addEventListener("message", function (event) {
+        const payload = JSON.parse(event.data.toString());
+
+        switch (payload.type) {
+          case 'queued':
+            queueComponent.hide();
+            inputComponent.show(payload.color, nameComponent.value());
+            isInGame = true;
+            break;
+          case 'can-queue':
+            queueComponent.show();
+            inputComponent.hide();
+            isInGame = false;
+            break;
+          case 'score':
+            scoreComponent.display(payload.score);
+            break;
+        }
+      });
+
+      if (auth) {
+        propagateAuth();
+      }
     }
-  });
-
-  if (auth) {
-    propagateAuth();
-  }
-}
-connect();
+    connect();
+  })
+})

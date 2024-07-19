@@ -19,61 +19,64 @@ setInterval(() => {
   award.update(lastGameState);
 }, 1000);
 
-const connect = () => {
-  ws = createWs();
+fetch('/config.json').then(config => {
+  config.json().then(json => {
+    // @ts-ignore
+    Object.keys(json).forEach(key => CONFIG[key] = json[key])
+    console.log(JSON.stringify(CONFIG), 4);
+    const connect = () => {
+      ws = createWs();
 
-  ws.addEventListener('open', () => {
-    ws.send(JSON.stringify({type: 'server'}));
-    qrcode.init();
-  })
+      ws.addEventListener('open', () => {
+        ws.send(JSON.stringify({type: 'server'}));
+        qrcode.init();
+      })
 
-  ws.addEventListener("message", function (event) {
-    const payload = JSON.parse(event.data.toString());
+      ws.addEventListener("message", function (event) {
+        const payload = JSON.parse(event.data.toString());
 
-    switch (payload.type) {
-      case 'config':
-        // @ts-ignore
-        Object.keys(payload).forEach(key => CONFIG[key] = payload[key])
-        break;
-      case 'game-state':
-        const game_payload = {
-          state: {
-            players: [],
-            balls: [],
-            startDate: undefined,
-            width: 0,
-            height: 0,
-            finished: true
-          }, ...payload
-        };
-        game.display(game_payload);
-        break;
-      case 'queue-state':
-        const queue_payload = {
-          state: {
-            players: [],
-            balls: [],
-            startDate: undefined,
-            width: 0,
-            height: 0,
-            finished: true
-          }, ...payload
-        };
-        queue.update(queue_payload);
-        break;
-      case 'game-score':
-        score.updateScore(payload);
-        lastGameState = payload;
-        break;
-      case 'score-state':
-        score.updateHighScore(payload);
-        break;
+        switch (payload.type) {
+          case 'game-state':
+            const game_payload = {
+              state: {
+                players: [],
+                balls: [],
+                startDate: undefined,
+                width: 0,
+                height: 0,
+                finished: true
+              }, ...payload
+            };
+            game.display(game_payload);
+            break;
+          case 'queue-state':
+            const queue_payload = {
+              state: {
+                players: [],
+                balls: [],
+                startDate: undefined,
+                width: 0,
+                height: 0,
+                finished: true
+              }, ...payload
+            };
+            queue.update(queue_payload);
+            break;
+          case 'game-score':
+            score.updateScore(payload);
+            lastGameState = payload;
+            break;
+          case 'score-state':
+            score.updateHighScore(payload);
+            break;
+        }
+      });
+
+      ws.addEventListener('close', (event) => {
+        setTimeout(() => connect(), 1000);
+      });
     }
-  });
 
-  ws.addEventListener('close', (event) => {
-    setTimeout(() => connect(), 1000);
-  });
-}
-
-connect();
+    connect();
+  })
+})
