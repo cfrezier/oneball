@@ -50,6 +50,10 @@ const args = yargs(hideBin(process.argv))
     type: 'number',
     description: 'Port for wss server'
   })
+  .option('wssExternalPort', {
+    type: 'number',
+    description: 'External url for wss'
+  })
   .parse() as {
   msGameLoop: number;
   height: number;
@@ -75,6 +79,7 @@ CONFIG.PATH = args.savePath ?? CONFIG.PATH;
 CONFIG.BOTS = args.bots ?? CONFIG.BOTS;
 CONFIG.SERVER_PORT = args.port ?? CONFIG.SERVER_PORT;
 CONFIG.WSS_PORT = args.wssPort ?? CONFIG.WSS_PORT;
+CONFIG.WSS_EXTERNAL_URL = args.wssExternalPort ?? CONFIG.WSS_EXTERNAL_URL;
 console.log(JSON.stringify(CONFIG));
 
 const {server, router} = start();
