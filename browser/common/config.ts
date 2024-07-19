@@ -1,5 +1,5 @@
 export const CONFIG = {
-  PATH: process.env.BACKUP_FILE || '/tmp/oneball-save.json',
+  PATH: '/tmp/oneball-save.json',
   MAX_MOVE_CHANGE_PERCENT: 0.01,
   VISION_DISTANCE: 400,
   GAME_LOOP_MS: 10,

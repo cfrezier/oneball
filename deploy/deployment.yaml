@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend-deployment
+  name: app
   namespace: oneball
   labels:
     app.kubernetes.io/part-of: oneball
