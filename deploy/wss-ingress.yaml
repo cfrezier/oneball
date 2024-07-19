@@ -22,7 +22,7 @@ metadata:
        proxycachebypass $httpupgrade;
        }
 spec:
-  ingressClassName: nginx
+  ingressClassName: open-nginx
   tls:
     - hosts:
         - wss.oneball.provoly.net

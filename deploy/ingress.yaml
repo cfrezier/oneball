@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/part-of: oneball
     app.kubernetes.io/name: app
 spec:
-  ingressClassName: nginx
+  ingressClassName: open-nginx
   tls:
     - hosts:
         - oneball.provoly.net
