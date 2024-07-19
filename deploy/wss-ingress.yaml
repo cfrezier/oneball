@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: app
+  name: wss
   namespace: oneball
   labels:
     app.kubernetes.io/part-of: oneball
@@ -25,10 +25,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - oneball.provoly.net
+        - wss.oneball.provoly.net
       secretName: oneball-tls
   rules:
-    - host: oneball.provoly.net
+    - host: wss.oneball.provoly.net
       http:
         paths:
           - path: /
