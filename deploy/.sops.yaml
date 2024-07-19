@@ -1,0 +1,13 @@
+creation_rules:
+  - path_regex: ".*.k8s_secret.yaml"
+    encrypted_regex: "^(data|stringData)$"
+    key_groups:
+      - age:
+          - age16rspnzt6j2qxa2587t6umh9qykrqu2amrr0hx9xt2z7elyky3a3q4p5s7l # s.metayer
+          - age17gp6lqd6u457fjmqptyetnnhy8tx93hqt2juejlvrmujc54acces06dk4n # c.farges
+          - age1ssqw7t6pnmlpsrx4tkpucqtzj5vzksmtcwkgp3prp5rspyvyk5tq0u32cs # j.tama
+  - key_groups:
+      - age:
+          - age16rspnzt6j2qxa2587t6umh9qykrqu2amrr0hx9xt2z7elyky3a3q4p5s7l # s.metayer
+          - age17gp6lqd6u457fjmqptyetnnhy8tx93hqt2juejlvrmujc54acces06dk4n # c.farges
+          - age1ssqw7t6pnmlpsrx4tkpucqtzj5vzksmtcwkgp3prp5rspyvyk5tq0u32cs # j.tama
