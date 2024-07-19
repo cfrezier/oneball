@@ -14,4 +14,5 @@ export const CONFIG = {
   BOTS: 0,
   SERVER_PORT: 8080,
   WSS_PORT: 8081,
+  WSS_EXTERNAL_URL: 'ws://localhost:8081'
 };
