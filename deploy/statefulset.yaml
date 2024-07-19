@@ -1,19 +1,22 @@
----
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: app
-  namespace: oneball
   labels:
     app.kubernetes.io/part-of: oneball
     app.kubernetes.io/name: app
+  name: app
+  namespace: oneball
 spec:
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Retain
+    whenScaled: Retain
   replicas: 1
   revisionHistoryLimit: 2
   selector:
     matchLabels:
       app.kubernetes.io/part-of: oneball
       app.kubernetes.io/name: app
+  serviceName: app
   template:
     metadata:
       labels:
@@ -28,14 +31,14 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /app/backup
+            - name: config
+              mountPath: /app/static/config.json
+              subPath: config.json
           ports:
             - containerPort: 8080
               name: http
             - containerPort: 8081
               name: wss
-          env:
-            - name: BACKUP_FILE
-              value: /app/backup/oneball.json
           imagePullPolicy: Always
           resources:
             requests:
@@ -48,3 +51,21 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: data
+        - name: config
+          configMap:
+            name: config
+  updateStrategy:
+    type: RollingUpdate
+  volumeClaimTemplates:
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: data
+        namespace: oneball
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+        storageClassName: csi-cinder-high-speed

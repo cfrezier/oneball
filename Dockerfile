@@ -13,4 +13,4 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/static ./static
 EXPOSE 8080
 EXPOSE 8081
-CMD ["node", "./dist/src/index.js", "--queueTime", "10"]
+CMD ["node", "./dist/src/index.js"]
