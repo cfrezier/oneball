@@ -10,6 +10,7 @@ FROM node:lts-alpine3.19
 WORKDIR /app
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/dist/src/* ./
 COPY ./static ./static
 EXPOSE 8080
 EXPOSE 8081
