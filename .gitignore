@@ -3,3 +3,5 @@
 timings.json
 /dist
 /static/js
+.idea/
+deploy/secret.yaml

@@ -1,0 +1,35 @@
+name: Build and push image
+
+on:
+  push:
+    branches:
+      - 'main'
+    paths-ignore:
+      - "*.md"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build and push image
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build and push using kaniko
+        uses: aevea/action-kaniko@v0.12.0
+        with:
+          registry: ${{ vars.REGISTRY_SERVER }}
+          image: provoly/oneball
+          tag: latest
+          username: ${{ secrets.REGISTRY_USER }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+          build_file: Dockerfile
+          cache: true
+          cache_ttl: 96h
+
+      - name: Logging Step
+        run: echo 'Image pushed to registry  ✅' >> $GITHUB_STEP_SUMMARY

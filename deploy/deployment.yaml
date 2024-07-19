@@ -1,0 +1,50 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+  namespace: oneball
+  labels:
+    app.kubernetes.io/part-of: oneball
+    app.kubernetes.io/name: app
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/part-of: oneball
+      app.kubernetes.io/name: app
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/part-of: oneball
+        app.kubernetes.io/name: app
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: app
+          image: "dh2wltsh.gra7.container-registry.ovh.net/provoly/oneball:latest"
+          volumeMounts:
+            - name: data
+              mountPath: /app/backup
+          ports:
+            - containerPort: 8080
+              name: http
+            - containerPort: 8081
+              name: wss
+          env:
+            - name: BACKUP_FILE
+              value: /app/backup/oneball.json
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 200m
+              memory: 100Mi
+            limits:
+              cpu: 200m
+              memory: 100Mi
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: data
