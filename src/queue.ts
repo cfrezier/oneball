@@ -81,6 +81,13 @@ export class Queue {
             this.sendQueueUpdate();
           }
         }
+        if (!!player && playerInCurrentQueue) {
+          //already in queue
+          player.queued();
+        }
+        if (!!player && playerInCurrentQueue) {
+          console.log("Currently playing !")
+        }
         break;
       case 'input':
         const playerInput = this.players.find((player) => payload.key === player.key);

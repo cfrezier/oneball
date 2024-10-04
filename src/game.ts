@@ -28,6 +28,7 @@ export class Game {
       }
       if (this.players.length > (CONFIG.MIN_PLAYERS - 1) && !this.startDate) {
         console.log(`Starting in ${CONFIG.QUEUE_TIME}s`);
+        player.queued();
         this.startDate = new Date().getTime() + 1000 * CONFIG.QUEUE_TIME;
         setTimeout(() => this.start(), 1000 * CONFIG.QUEUE_TIME);
         this.queue.initGame();
