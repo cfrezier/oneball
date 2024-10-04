@@ -102,7 +102,7 @@ export class GameDisplay {
         this.context.stroke();
       });
 
-      this.context.font = "18px serif";
+      this.context.font = "32px Arial";
       players.forEach(player => {
         this.context.save();
         this.context.translate((player.defenseLine[1][0] + player.defenseLine[0][0]) / 2, (player.defenseLine[1][1] + player.defenseLine[0][1]) / 2);
@@ -110,7 +110,7 @@ export class GameDisplay {
         const angle = Geometry.getAngle(blockVector);
         const additionnalAngle = (player.defenseLine[1][0] < player.defenseLine[0][0]) ? Math.PI : 0;
         this.context.rotate(angle + additionnalAngle);
-        this.context.translate(0, additionnalAngle !== 0 ? 20 : -10);
+        this.context.translate(0, additionnalAngle !== 0 ? 40 : -20);
         const nameLength = this.context.measureText(player.name);
         this.context.translate(-nameLength.width / 2, 0);
         this.context.fillStyle = player.color;
@@ -139,13 +139,16 @@ export class GameDisplay {
       const seconds = Math.ceil(timeToStart);
       const progress = timeToStart - Math.ceil(timeToStart);
       if (!isNaN(seconds) && seconds > 0) {
-        const fontSize = Math.round(200 * (1 - progress));
+        this.canvas.style.backgroundImage = 'none';
+        const fontSize = Math.round(400 * (1 - progress));
         this.context.font = `${fontSize}px serif`;
         this.context.fillStyle = '#009EDF';
         this.context.fillText(`${seconds}`, (CONFIG.GLOBAL_WIDTH - fontSize / 2) / 2, (CONFIG.GLOBAL_HEIGHT + fontSize / 2) / 2);
         setTimeout(() => {
           this.display();
         }, 10);
+      } else {
+        this.canvas.style.backgroundImage = './img/onepoint.png';
       }
     }
   }
