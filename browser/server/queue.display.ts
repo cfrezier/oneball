@@ -47,12 +47,13 @@ export default class QueueDisplay {
 
   private secondsToGo(payload: any) {
     const toGo = Math.round((new Date(payload.state.startDate).getTime() - new Date().getTime()) / 1000);
+    console.log('togo', toGo, payload.state);
     if (isNaN(toGo) && payload.state.ready && !payload.state.started) {
-      return {text: `Waiting for last game to end.`, continue: false}
+      return {text: `Partie en cours...`, continue: false}
     }
     if (isNaN(toGo) || payload.state.finished) {
-      return {text: `Queuing for next game...`, continue: false}
+      return {text: `File d'attente ouverte...`, continue: false}
     }
-    return toGo > 0 ? {text: `Queue still possible for ${toGo} ...`, continue: true} : {text: `Game started !`, continue: false};
+    return toGo > 0 ? {text: `Entrée dans le jeu possible pendant encore ${toGo}s ...`, continue: true} : {text: `C'est parti !`, continue: false};
   }
 }

@@ -1,9 +1,14 @@
 export default class AwardDisplay {
   _awardDiv?: HTMLDivElement;
   translation = {
-    mostPlayed: "&#128548; (played++)",
-    mostEfficient: "&#129297; (efficient++)",
-    leastEfficient: "&#128565; (efficient--)"
+    mostPlayed: "Le plus actif",
+    mostEfficient: "Le plus efficace",
+    leastEfficient: "Le moins efficace"
+  } as { [key: string]: string };
+  colors = {
+    mostPlayed: "#09ff00",
+    mostEfficient: "#0534ff",
+    leastEfficient: "#f16e6e"
   } as { [key: string]: string };
 
   getAwardDiv() {
@@ -15,7 +20,7 @@ export default class AwardDisplay {
 
   update(payload: any | undefined) {
     if (payload !== null) {
-      this.getAwardDiv().innerHTML = Object.keys(payload.awards).map(key => `${this.translation[key]}: ${payload.awards[key].name}`).join('\t|\t');
+      this.getAwardDiv().innerHTML = Object.keys(payload.awards).map(key => `${this.translation[key]}: <span class="remarkable" style="background-color: ${this.colors[key]}">${payload.awards[key].name}</span>`).join('\t|\t');
     }
   }
 }

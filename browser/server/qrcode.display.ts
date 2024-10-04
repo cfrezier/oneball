@@ -13,8 +13,8 @@ export class QrCodeDisplay {
     if (!this._qrCodeDiv) {
       this._qrCodeDiv = window.document.body.querySelector(".qr-code") ?? undefined;
       this.qrCode = new QRCodeStyling({
-        width: 250,
-        height: 250,
+        width: 200,
+        height: 200,
         type: "svg",
         data: this.url,
         dotsOptions: {

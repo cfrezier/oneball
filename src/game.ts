@@ -13,7 +13,6 @@ export class Game {
   finished = false;
   started: boolean = false;
   ready = false;
-  startTime?: Date;
 
   constructor(queue: Queue) {
     this.queue = queue;
@@ -42,7 +41,7 @@ export class Game {
     if (this.players.length >= CONFIG.MIN_PLAYERS) {
       this.started = true;
       this.queue.executeGame();
-      this.startTime = new Date();
+      this.startDate = new Date().getTime();
     } else {
       console.log(`Not enough players... retry in ${CONFIG.RETRY_TIME}s`);
       this.startDate = new Date().getTime() + 1000 * CONFIG.QUEUE_TIME;
@@ -116,7 +115,7 @@ export class Game {
   }
 
   reward() {
-    const elapsed = Math.round(new Date().getTime() - (this.startTime?.getTime() ?? 0)) / 1000;
+    const elapsed = Math.round(new Date().getTime() - (this.startDate ?? 0)) / 1000;
     this.players.forEach((player) => player.reward(elapsed));
   }
 }

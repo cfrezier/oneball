@@ -24,6 +24,7 @@ body {
     height: 100vh;
     gap: 10px;
     overflow: hidden;
+    padding: 15px;
 }
 
 .nav {
@@ -63,6 +64,10 @@ body {
 
 .highscore {
     grid-area: highscore;
+    color: #009EDF;
+    background-color: white;
+    border-radius: 10px;
+    padding: 5px;
 }
 
 .qr-code {
@@ -72,6 +77,7 @@ body {
 .highscore-content, .score-content {
     display: flex;
     flex-direction: column;
+    margin-bottom: 30px;
 }
 
 .score-item {
@@ -96,6 +102,7 @@ h1 {
     font-weight: 400;
     display: flex;
     justify-content: center;
+    text-align: center
 }
 
 .queue-content {
@@ -114,4 +121,10 @@ h1 {
 .awards {
     margin-left: auto;
     margin-right: 50px;
+}
+
+.remarkable {
+    border-radius: 10px;
+    padding: 5px;
+    color: black;
 }
