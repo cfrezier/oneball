@@ -77,6 +77,7 @@ body {
 
     .header {
         font-weight: bold;
+        padding-bottom: 20px;
     }
 }
 
@@ -102,6 +103,7 @@ body {
     font-size: 20px;
     .header {
         font-weight: bold;
+        padding-bottom: 20px;
     }
 }
 
@@ -162,8 +164,13 @@ h1 {
     border-radius: 10px;
     padding: 5px;
     color: black;
+    margin-right: 10px;
 }
 
 .remarkable-text {
     padding: 5px;
+}
+
+.queue-time.header {
+    color: #009EDF;
 }
