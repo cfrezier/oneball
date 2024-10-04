@@ -6,6 +6,7 @@ import {createWs} from '../common/ws';
 import {ScoreComponent} from "./score.component";
 import {CONFIG} from "../common/config";
 import {WaitComponent} from "./wait.component";
+import {IdComponent} from "./id.component";
 
 const STORAGE_KEY = 'oneball-key';
 
@@ -20,6 +21,7 @@ const inputComponent = new InputComponent();
 const queueComponent = new QueueComponent();
 const scoreComponent = new ScoreComponent();
 const waitComponent = new WaitComponent();
+const idComponent = new IdComponent();
 
 const propagateAuth = () => {
   const name = nameComponent.value();
@@ -29,6 +31,7 @@ const propagateAuth = () => {
   scoreComponent.hide();
   queueComponent.show();
   waitComponent.hide();
+  idComponent.init();
 };
 
 fetch('/config.json').then(config => {
@@ -45,6 +48,7 @@ fetch('/config.json').then(config => {
       queueComponent.init(ws, key);
       scoreComponent.init();
       waitComponent.init();
+      idComponent.init();
 
       ws.addEventListener('open', () => {
         console.log("connected.");

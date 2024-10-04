@@ -85,7 +85,7 @@ export class Queue {
           //already in queue
           player.queued();
         }
-        if (!!player && playerInCurrentQueue) {
+        if (!!player && playerInCurrentGame) {
           player.queued();
           player.stopWait();
         }

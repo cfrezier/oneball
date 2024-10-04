@@ -62,6 +62,13 @@ body {
     color: white;
 }
 
+.id {
+    font-size: 10px;
+    position: absolute;
+    bottom: 0;
+    color: white;
+}
+
 .loader {
     width: 100px;
     aspect-ratio: 1;
