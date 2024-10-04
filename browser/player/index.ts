@@ -5,6 +5,7 @@ import {QueueComponent} from "./queue.component";
 import {createWs} from '../common/ws';
 import {ScoreComponent} from "./score.component";
 import {CONFIG} from "../common/config";
+import {WaitComponent} from "./wait.component";
 
 const STORAGE_KEY = 'oneball-key';
 
@@ -18,6 +19,7 @@ const nameComponent = new NameComponent();
 const inputComponent = new InputComponent();
 const queueComponent = new QueueComponent();
 const scoreComponent = new ScoreComponent();
+const waitComponent = new WaitComponent();
 
 const propagateAuth = () => {
   const name = nameComponent.value();
@@ -26,6 +28,7 @@ const propagateAuth = () => {
   nameComponent.hide();
   scoreComponent.hide();
   queueComponent.show();
+  waitComponent.hide();
 };
 
 fetch('/config.json').then(config => {
@@ -41,9 +44,11 @@ fetch('/config.json').then(config => {
       inputComponent.init(ws, key);
       queueComponent.init(ws, key);
       scoreComponent.init();
+      waitComponent.init();
 
       ws.addEventListener('open', () => {
         console.log("connected.");
+        waitComponent.hide();
       });
 
       ws.addEventListener('error', (ev) => {
@@ -61,15 +66,18 @@ fetch('/config.json').then(config => {
           case 'queued':
             queueComponent.hide();
             inputComponent.show(payload.color, nameComponent.value());
+            waitComponent.show();
             isInGame = true;
             break;
           case 'can-queue':
             queueComponent.show();
             inputComponent.hide();
+            waitComponent.hide();
             isInGame = false;
             break;
           case 'score':
             scoreComponent.display(payload.score);
+            waitComponent.hide();
             break;
         }
       });

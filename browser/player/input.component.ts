@@ -7,6 +7,7 @@ export class InputComponent {
     this.range = document.getElementById('input') as HTMLInputElement;
     this.panel = document.getElementById('panel-input') as HTMLDivElement;
     this.label = document.getElementById('player-label') as HTMLDivElement;
+
     if (this.range && this.label && this.panel) {
       this.hide();
       this.range.addEventListener("input", () => {
@@ -19,7 +20,7 @@ export class InputComponent {
 
   show(color: string, name: string) {
     this.panel!.style.display = "flex";
-    this.label!.style.backgroundColor = color;
+    this.label!.style.color = color;
     this.label!.innerText = name;
   }
 
