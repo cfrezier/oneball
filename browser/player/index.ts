@@ -46,6 +46,10 @@ fetch('/config.json').then(config => {
         console.log("connected.");
       });
 
+      ws.addEventListener('error', (ev) => {
+        console.log("WS error:", ev);
+      });
+
       ws.addEventListener('close', (event) => {
         setTimeout(() => connect(), isInGame ? 10 : 1000);
       });

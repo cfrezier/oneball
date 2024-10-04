@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:dev": "npm run build && npx nodemon ./dist/src/index.js --bots 5",
-    "start": "npm run build && npx nodemon ./dist/src/index.js --queueTime 10",
+    "start:dev": "npm run build && npx nodemon ./dist/src/index.js",
+    "start": "npm run build && npx nodemon ./dist/src/index.js",
     "build": "npm run build:node && npm run build:player && npm run build:server",
     "build:node": "npx tsc",
     "build:player": "npx webpack -c ./browser/player/webpack.config.js",
