@@ -3,9 +3,10 @@
 }
 
 .btn {
-    border-radius: 20px;
-    background-color: dodgerblue;
-    color: white;
+    border-radius: 50px;
+    padding: 20px 40px;
+    background-color: #009EDF;
+    color: black;
     border: none;
 }
 
@@ -15,6 +16,7 @@ body {
     width: 100vw;
     height: 100vh;
     box-sizing: border-box;
+    font-family: Arial;
 }
 
 .main {
@@ -30,6 +32,14 @@ body {
     display: flex;
     flex-direction: column;
     gap: 30px;
+
+    label {
+        color: white;
+    }
+
+    input {
+        border-radius: 50px;
+    }
 }
 
 * {
