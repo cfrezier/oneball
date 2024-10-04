@@ -47,7 +47,6 @@ export default class QueueDisplay {
 
   private secondsToGo(payload: any) {
     const toGo = Math.round((new Date(payload.state.startDate).getTime() - new Date().getTime()) / 1000);
-    console.log('togo', toGo, payload.state);
     if (isNaN(toGo) && payload.state.ready && !payload.state.started) {
       return {text: `Partie en cours...`, continue: false}
     }
