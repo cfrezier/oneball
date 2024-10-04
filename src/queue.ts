@@ -86,7 +86,8 @@ export class Queue {
           player.queued();
         }
         if (!!player && playerInCurrentQueue) {
-          console.log("Currently playing !")
+          player.queued();
+          player.stopWait();
         }
         break;
       case 'input':
@@ -199,5 +200,9 @@ export class Queue {
 
   private askBotInputs() {
     this.bots.forEach(bot => bot.newInput(this.currentGame!, this));
+  }
+
+  doneWaiting() {
+    this.players.forEach(pl => pl.stopWait());
   }
 }

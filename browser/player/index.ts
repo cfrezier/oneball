@@ -75,6 +75,9 @@ fetch('/config.json').then(config => {
             waitComponent.hide();
             isInGame = false;
             break;
+          case 'wait-over':
+            waitComponent.hide();
+            break;
           case 'score':
             scoreComponent.display(payload.score);
             waitComponent.hide();

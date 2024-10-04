@@ -41,6 +41,7 @@ export class Game {
     this.ready = true;
     if (this.players.length >= CONFIG.MIN_PLAYERS) {
       this.started = true;
+      this.queue.doneWaiting();
       this.queue.executeGame();
       this.startDate = new Date().getTime();
       this.queue.sendQueueUpdate();

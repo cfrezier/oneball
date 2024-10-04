@@ -123,6 +123,10 @@ export class Player {
     this.ws?.send(JSON.stringify({type: 'queued', color: this.color}));
   }
 
+  stopWait() {
+    this.ws?.send(JSON.stringify({type: 'wait-over', color: this.color}));
+  }
+
   canQueue() {
     this.ws?.send(JSON.stringify({type: 'can-queue'}));
   }
