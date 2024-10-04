@@ -42,9 +42,11 @@ export class Game {
       this.started = true;
       this.queue.executeGame();
       this.startDate = new Date().getTime();
+      this.queue.sendQueueUpdate();
     } else {
       console.log(`Not enough players... retry in ${CONFIG.RETRY_TIME}s`);
       this.startDate = new Date().getTime() + 1000 * CONFIG.QUEUE_TIME;
+      this.queue.sendQueueUpdate();
       setTimeout(() => {
         this.start();
       }, CONFIG.RETRY_TIME * 1000);

@@ -54,6 +54,6 @@ export default class QueueDisplay {
     if (isNaN(toGo) || payload.state.finished) {
       return {text: `File d'attente ouverte...`, continue: false}
     }
-    return toGo > 0 ? {text: `Entrée dans le jeu possible pendant encore ${toGo}s ...`, continue: true} : {text: `C'est parti !`, continue: false};
+    return toGo > 0 ? {text: `Entrez dans le jeu pendant encore ${toGo}s ...`, continue: true} : {text: `C'est parti !`, continue: false};
   }
 }

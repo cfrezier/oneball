@@ -132,8 +132,11 @@ export class Queue {
     this.servers.forEach((ws) => ws?.send(state));
   }
 
-  private sendQueueUpdate() {
-    const state = JSON.stringify({type: 'queue-state', state: this.nextGame?.state()});
+  public sendQueueUpdate() {
+    const state = JSON.stringify({
+      type: 'queue-state',
+      state: {...this.nextGame?.state(), startDate: this.currentGame?.state().startDate}
+    });
     this.servers.forEach((ws) => ws?.send(state));
   }
 
