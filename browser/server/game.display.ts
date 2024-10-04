@@ -63,6 +63,7 @@ export class GameDisplay {
           0,
           2 * Math.PI
         );
+        this.context.lineWidth = 10;
         this.context.fillStyle = gradient;
         this.context.fill();
         this.context.strokeStyle = ball.color;
@@ -94,7 +95,7 @@ export class GameDisplay {
       // Draw blocks
       players.forEach(player => {
         this.context.strokeStyle = player.color;
-        this.context.lineWidth = 10;
+        this.context.lineWidth = 15;
         this.context.lineCap = "round";
         this.context.beginPath();
         this.context.moveTo(...player.block[0]);
@@ -139,6 +140,7 @@ export class GameDisplay {
       const seconds = Math.ceil(timeToStart);
       const progress = timeToStart - Math.ceil(timeToStart);
       if (!isNaN(seconds) && seconds > 0) {
+        const tmp = this.canvas.style.backgroundImage;
         this.canvas.style.backgroundImage = 'none';
         const fontSize = Math.round(400 * (1 - progress));
         this.context.font = `${fontSize}px serif`;
@@ -148,7 +150,7 @@ export class GameDisplay {
           this.display();
         }, 10);
       } else {
-        this.canvas.style.backgroundImage = './img/onepoint.png';
+        this.canvas.style.backgroundImage = "url('./img/onepoint.png')";
       }
     }
   }
