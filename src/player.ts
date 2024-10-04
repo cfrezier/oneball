@@ -1,7 +1,7 @@
 import {WebSocket} from "ws";
 import {v4 as uuid} from 'uuid';
 import {colors} from "./colors";
-import {Geometry, Segment, Vector} from "./geometry";
+import {Segment, Vector} from "./geometry";
 import {Ball} from "./ball";
 import {CONFIG} from "../browser/common/config";
 
@@ -40,6 +40,7 @@ export class Player {
   points = 0;
   totalPoints = 0;
   reverseInput: boolean = false;
+  ratio: number = 0;
 
   constructor(name: string, key?: string) {
     this.name = name;
@@ -65,6 +66,7 @@ export class Player {
     ]
     this.input = 0.5;
     this.reverseInput = this.defenseLine[0][0] > this.defenseLine[1][0];
+    this.updateRatio();
   }
 
   block(): Segment {
@@ -76,14 +78,17 @@ export class Player {
   }
 
   lost(ball: Ball) {
+    console.log(`player ${this.name} lost ${ball.key === this.key ? 5 : 1}`);
     this.points -= ball.key === this.key ? 5 : 1;
     this.sizePercent = Math.max(MIN_BLOCK_SIZE_PERCENT, this.sizePercent * (ball.key === this.key ? DECREASE_BALL_FACTOR_SELF : DECREASE_BALL_FACTOR_OTHER));
+    this.updateRatio();
   }
 
   gain(ball: Ball) {
     console.log(`player ${this.name} gains ${ball.key === this.key ? 5 : 1}`);
     this.points += ball.key === this.key ? 5 : 1;
     this.sizePercent = Math.min(MAX_BLOCK_SIZE_PERCENT, this.sizePercent * (ball.key === this.key ? INCREASE_BALL_FACTOR_SELF : INCREASE_BALL_FACTOR_OTHER));
+    this.updateRatio();
   }
 
   disconnect() {
@@ -109,6 +114,7 @@ export class Player {
   reward(time: number) {
     this.totalPoints += this.points;
     this.time += time;
+    this.updateRatio();
     this.points = 0;
     this.ws?.send(JSON.stringify({type: 'score', score: this.totalPoints}));
   }
@@ -136,5 +142,9 @@ export class Player {
       name: this.name,
       key: this.key,
     };
+  }
+
+  public updateRatio() {
+    this.ratio = (this.totalPoints + this.points) / (this.time + 1000);
   }
 }

@@ -56,6 +56,11 @@ body {
 
 .queue {
     grid-area: queue;
+    color: black;
+    background-color: white;
+    border-radius: 10px;
+    padding: 5px;
+    font-size: 20px;
 }
 
 .score {
@@ -67,12 +72,20 @@ body {
     color: #009EDF;
     background-color: white;
     border-radius: 10px;
-    padding: 5px;
+    padding: 10px;
     font-size: 20px;
+
+    .header {
+        font-weight: bold;
+    }
 }
 
 .qr-code {
     grid-area: qr-code;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .highscore-content, .score-content {
@@ -82,13 +95,30 @@ body {
 }
 
 .score {
+    color: white;
+    background-color: #009EDF;
+    border-radius: 10px;
+    padding: 10px;
     font-size: 20px;
+    .header {
+        font-weight: bold;
+    }
 }
 
 .score-item {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+
+    &:nth-child(1) {
+        font-size: 28px;
+    }
+    &:nth-child(2) {
+        font-size: 24px;
+    }
+    &:nth-child(3) {
+        font-size: 20px;
+    }
 }
 
 p {
@@ -132,4 +162,8 @@ h1 {
     border-radius: 10px;
     padding: 5px;
     color: black;
+}
+
+.remarkable-text {
+    padding: 5px;
 }

@@ -20,7 +20,7 @@ export default class AwardDisplay {
 
   update(payload: any | undefined) {
     if (payload !== null) {
-      this.getAwardDiv().innerHTML = Object.keys(payload.awards).map(key => `${this.translation[key]}: <span class="remarkable" style="background-color: ${this.colors[key]}">${payload.awards[key].name}</span>`).join('\t|\t');
+      this.getAwardDiv().innerHTML = Object.keys(payload.awards).map(key => `<span class="remarkable-text">${this.translation[key]}: </span><span class="remarkable" style="background-color: ${this.colors[key]}">${payload.awards[key].name}</span>`).join('\t\t');
     }
   }
 }
