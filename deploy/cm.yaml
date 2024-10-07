@@ -20,5 +20,6 @@ data:
       "BOTS": 0,
       "SERVER_PORT": 8080,
       "WSS_PORT": 8081,
-      "WSS_EXTERNAL_URL": "wss://wss.oneball.provoly.net"
+      "WSS_EXTERNAL_URL": "wss://wss.oneball.provoly.net",
+      "MAX_SPEED": 20
     }

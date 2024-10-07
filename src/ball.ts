@@ -41,7 +41,7 @@ export class Ball {
     const newVelocity = previousVelocity * CONFIG.ACCELERATION_FACTOR;
     const dx = Math.cos(angle) * newVelocity;
     const dy = Math.sin(angle) * newVelocity;
-    this.direction = Geometry.limitToMax([dx, dy], 20);
+    this.direction = Geometry.limitToMax([dx, dy], CONFIG.MAX_SPEED);
     this.move(0.001);
   }
 
