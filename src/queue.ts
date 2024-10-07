@@ -158,9 +158,9 @@ export class Queue {
       type: 'game-score',
       state: {players: (this.currentGame?.players ?? []).map(player => player.state())},
       awards: {
-        mostPlayed: this.players.find(p => p.time === mostPlayedTime),
-        mostEfficient: this.players.find(p => p.ratio === mostEfficientRatio),
-        leastEfficient: this.players.find(p => p.ratio === leastEfficientRatio),
+        mostPlayed: this.players.find(p => p.time === mostPlayedTime)?.state(),
+        mostEfficient: this.players.find(p => p.ratio === mostEfficientRatio)?.state(),
+        leastEfficient: this.players.find(p => p.ratio === leastEfficientRatio)?.state(),
       }
     });
     this.servers.forEach((ws) => ws?.send(state));

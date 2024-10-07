@@ -5,7 +5,7 @@ export class NameComponent {
   panel: HTMLDivElement | undefined;
   input: HTMLInputElement | undefined;
 
-  init(propagateAuth: () => void) {
+  init(propagateAuth: () => void, activity: () => void) {
     this.nameBtn = document.getElementById('btn-name') as HTMLButtonElement;
     this.panel = document.getElementById('panel-name') as HTMLDivElement;
     this.input = document.getElementById('input-name') as HTMLInputElement;
@@ -13,8 +13,9 @@ export class NameComponent {
       this.nameBtn.addEventListener('click', propagateAuth);
       this.panel.style.display = "flex";
       this.input.value = localStorage.getItem(STORAGE_KEY) ?? '';
+      activity();
     } else {
-      setTimeout(() => this.init(propagateAuth), 100);
+      setTimeout(() => this.init(propagateAuth, activity), 100);
     }
   }
 
