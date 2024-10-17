@@ -6,6 +6,7 @@ export class GameDisplay {
   debug?: HTMLDivElement;
   context!: CanvasRenderingContext2D;
   size: number = 10;
+  drawElement!: HTMLDivElement;
 
   constructor() {
     setTimeout(() => this.init(), 100);
@@ -13,8 +14,9 @@ export class GameDisplay {
 
   init() {
     this.canvas = window.document.body.querySelector(".game-canvas")!;
+    this.drawElement = window.document.body.querySelector("div.draw")!;
     this.context = this.canvas.getContext('2d')!;
-    this.size = Math.min(this.canvas.getBoundingClientRect().width, this.canvas.getBoundingClientRect().height);
+    this.size = Math.min(this.drawElement.getBoundingClientRect().width, this.drawElement.getBoundingClientRect().height);
     this.canvas.width = CONFIG.GLOBAL_WIDTH;
     this.canvas.height = CONFIG.GLOBAL_HEIGHT;
     this.canvas.style.width = `${this.size}px`;
@@ -63,7 +65,7 @@ export class GameDisplay {
           0,
           2 * Math.PI
         );
-        this.context.lineWidth = 10;
+        this.context.lineWidth = 15;
         this.context.fillStyle = gradient;
         this.context.fill();
         this.context.strokeStyle = ball.color;
@@ -95,7 +97,7 @@ export class GameDisplay {
       // Draw blocks
       players.forEach(player => {
         this.context.strokeStyle = player.color;
-        this.context.lineWidth = 15;
+        this.context.lineWidth = 25;
         this.context.lineCap = "round";
         this.context.beginPath();
         this.context.moveTo(...player.block[0]);
@@ -103,7 +105,7 @@ export class GameDisplay {
         this.context.stroke();
       });
 
-      this.context.font = "32px Arial";
+      this.context.font = "48px Arial";
       players.forEach(player => {
         this.context.save();
         this.context.translate((player.defenseLine[1][0] + player.defenseLine[0][0]) / 2, (player.defenseLine[1][1] + player.defenseLine[0][1]) / 2);
@@ -111,7 +113,7 @@ export class GameDisplay {
         const angle = Geometry.getAngle(blockVector);
         const additionnalAngle = (player.defenseLine[1][0] < player.defenseLine[0][0]) ? Math.PI : 0;
         this.context.rotate(angle + additionnalAngle);
-        this.context.translate(0, additionnalAngle !== 0 ? 40 : -20);
+        this.context.translate(0, additionnalAngle !== 0 ? 60 : -20);
         const nameLength = this.context.measureText(player.name);
         this.context.translate(-nameLength.width / 2, 0);
         this.context.fillStyle = player.color;

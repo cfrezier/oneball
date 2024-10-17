@@ -24,7 +24,7 @@ body {
     height: 100vh;
     gap: 10px;
     overflow: hidden;
-    padding: 15px;
+    padding: 10px;
 }
 
 .nav {
@@ -105,21 +105,23 @@ body {
         font-weight: bold;
         padding-bottom: 20px;
     }
+    height: 250px;
 }
 
 .score-item {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    font-size: 15px;
 
     &:nth-child(1) {
-        font-size: 28px;
-    }
-    &:nth-child(2) {
         font-size: 24px;
     }
+    &:nth-child(2) {
+        font-size: 22px;
+    }
     &:nth-child(3) {
-        font-size: 20px;
+        font-size: 18px;
     }
 }
 
