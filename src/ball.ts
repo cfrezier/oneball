@@ -15,7 +15,9 @@ export class Ball {
     this.color = color;
     this.key = key;
     this.size = 3;
-    this.direction = [this.randomVelocity(), this.randomVelocity()];
+    const angle = Math.random() * Math.PI * 2;
+    const speed = 1 + Math.random() * 2;
+    this.direction = [speed * Math.cos(angle), speed * Math.sin(angle)];
   }
 
   randomVelocity() {
