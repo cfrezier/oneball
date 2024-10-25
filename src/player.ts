@@ -66,7 +66,6 @@ export class Player {
         (0.5 + Math.sin(this.endAngle) / 2) * CONFIG.GLOBAL_HEIGHT]
     ]
     this.playerWidthPercent = 25 / Math.sqrt(Math.pow(this.defenseLine[0][0] - this.defenseLine[1][0], 2) + Math.pow(this.defenseLine[0][1] - this.defenseLine[1][1], 2));
-    console.log(this.playerWidthPercent);
     this.input = 0.5;
     this.reverseInput = this.defenseLine[0][0] > this.defenseLine[1][0];
     this.updateRatio();
