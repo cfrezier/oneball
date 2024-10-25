@@ -5,9 +5,9 @@ import {Segment, Vector} from "./geometry";
 import {Ball} from "./ball";
 import {CONFIG} from "../browser/common/config";
 
-const START_BLOCK_SIZE_PERCENT = 0.1;
+const START_BLOCK_SIZE_PERCENT = 0.15;
 const MIN_BLOCK_SIZE_PERCENT = 0.02;
-const MAX_BLOCK_SIZE_PERCENT = 0.3;
+const MAX_BLOCK_SIZE_PERCENT = 0.4;
 
 /* To debug bounces etc */
 /*
@@ -80,8 +80,8 @@ export class Player {
   }
 
   displayBlock(): Segment {
-    const startPercent = this.input - this.sizePercent - this.playerWidthPercent;
-    const endPercent = this.input + this.sizePercent + this.playerWidthPercent;
+    const startPercent = this.input - this.sizePercent + this.playerWidthPercent;
+    const endPercent = this.input + this.sizePercent - this.playerWidthPercent;
     const first = [(this.defenseLine[0][0] * (1 - startPercent) + this.defenseLine[1][0] * (startPercent)), (this.defenseLine[0][1] * (1 - startPercent) + this.defenseLine[1][1] * (startPercent))] as Vector;
     const second = [(this.defenseLine[0][0] * (1 - endPercent) + this.defenseLine[1][0] * (endPercent)), (this.defenseLine[0][1] * (1 - endPercent) + this.defenseLine[1][1] * (endPercent))] as Vector;
     return [first, second];
