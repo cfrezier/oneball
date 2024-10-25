@@ -81,7 +81,8 @@ export class GameDisplay {
     size: number,
     points: number,
     total: number,
-    block: Segment
+    block: Segment,
+    displayBlock: Segment
   }[]) {
     if (this.context) {
       // Draw DefenseLines
@@ -100,8 +101,8 @@ export class GameDisplay {
         this.context.lineWidth = 25;
         this.context.lineCap = "round";
         this.context.beginPath();
-        this.context.moveTo(...player.block[0]);
-        this.context.lineTo(...player.block[1]);
+        this.context.moveTo(...player.displayBlock[0]);
+        this.context.lineTo(...player.displayBlock[1]);
         this.context.stroke();
       });
 

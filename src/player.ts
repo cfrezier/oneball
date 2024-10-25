@@ -41,6 +41,7 @@ export class Player {
   totalPoints = 0;
   reverseInput: boolean = false;
   ratio: number = 0;
+  playerWidthPercent: number = 0.03;
 
   constructor(name: string, key?: string) {
     this.name = name;
@@ -64,6 +65,8 @@ export class Player {
       [(0.5 + Math.cos(this.endAngle) / 2) * CONFIG.GLOBAL_WIDTH,
         (0.5 + Math.sin(this.endAngle) / 2) * CONFIG.GLOBAL_HEIGHT]
     ]
+    this.playerWidthPercent = 25 / Math.sqrt(Math.pow(this.defenseLine[0][0] - this.defenseLine[1][0], 2) + Math.pow(this.defenseLine[0][1] - this.defenseLine[1][1], 2));
+    console.log(this.playerWidthPercent);
     this.input = 0.5;
     this.reverseInput = this.defenseLine[0][0] > this.defenseLine[1][0];
     this.updateRatio();
@@ -72,6 +75,14 @@ export class Player {
   block(): Segment {
     const startPercent = this.input - this.sizePercent;
     const endPercent = this.input + this.sizePercent;
+    const first = [(this.defenseLine[0][0] * (1 - startPercent) + this.defenseLine[1][0] * (startPercent)), (this.defenseLine[0][1] * (1 - startPercent) + this.defenseLine[1][1] * (startPercent))] as Vector;
+    const second = [(this.defenseLine[0][0] * (1 - endPercent) + this.defenseLine[1][0] * (endPercent)), (this.defenseLine[0][1] * (1 - endPercent) + this.defenseLine[1][1] * (endPercent))] as Vector;
+    return [first, second];
+  }
+
+  displayBlock(): Segment {
+    const startPercent = this.input - this.sizePercent - this.playerWidthPercent;
+    const endPercent = this.input + this.sizePercent + this.playerWidthPercent;
     const first = [(this.defenseLine[0][0] * (1 - startPercent) + this.defenseLine[1][0] * (startPercent)), (this.defenseLine[0][1] * (1 - startPercent) + this.defenseLine[1][1] * (startPercent))] as Vector;
     const second = [(this.defenseLine[0][0] * (1 - endPercent) + this.defenseLine[1][0] * (endPercent)), (this.defenseLine[0][1] * (1 - endPercent) + this.defenseLine[1][1] * (endPercent))] as Vector;
     return [first, second];
@@ -101,13 +112,15 @@ export class Player {
   }
 
   state() {
+    // console.log(this.block(), this.displayBlock());
     return {
       color: this.color,
       name: this.name,
       defenseLine: this.defenseLine,
       points: this.points,
       total: this.totalPoints + this.points,
-      block: this.block()
+      block: this.block(),
+      displayBlock: this.displayBlock()
     };
   }
 
