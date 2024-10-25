@@ -123,7 +123,6 @@ export class Queue {
       console.log("Game finished.");
       this.currentGame!.reward();
       this.currentGame = undefined;
-      this.sendCurrentScoreToServer();
       this.sendHighScoreToServer();
       this.sendGameToServer();
       this.sendQueueUpdate();
