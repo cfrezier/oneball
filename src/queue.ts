@@ -112,12 +112,13 @@ export class Queue {
   }
 
   executeGame() {
-    this.currentGame!.execute();
+    this.currentGame!.execute(() => {
+      this.sendCurrentScoreToServer();
+      this.sendHighScoreToServer();
+    });
     this.sendGameToServer();
     if (!this.currentGame!.finished) {
       setTimeout(() => this.executeGame(), CONFIG.GAME_LOOP_MS);
-      this.sendCurrentScoreToServer();
-      this.sendHighScoreToServer();
       this.askBotInputs();
     } else {
       console.log("Game finished.");

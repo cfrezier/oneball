@@ -13,6 +13,7 @@ export class Game {
   finished = false;
   started: boolean = false;
   ready = false;
+  checkLength = 3 * (Math.min(CONFIG.GLOBAL_WIDTH, CONFIG.GLOBAL_HEIGHT) / 2) / 4;
 
   constructor(queue: Queue) {
     this.queue = queue;
@@ -59,38 +60,38 @@ export class Game {
     this.balls = this.players.map(player => new Ball({key: player.key, color: player.color}));
   }
 
-  execute() {
+  execute(changeScoreListener: () => void) {
     const ballsRemoval: string[] = [];
     this.balls.forEach(ball => {
       let intersect = false;
-      const trajectory = ball.trajectory();
+      const segmentCenterToBall = ball.segmentToCenter();
 
-      // Verify if ball crossing player defense line
-      this.players.forEach(player => {
-        const intersection = Geometry.getIntersection(player.defenseLine, trajectory);
-        if (intersection) {
-          intersect = true;
-          const playerBlock = player.block();
-          const rebound = Geometry.getIntersection(playerBlock, trajectory);
-          if (rebound) {
-            // Rebound from the defense block
-            ball.bounce(player, rebound, playerBlock);
-          } else {
-            // Goal
-            ballsRemoval.push(ball.key);
-            player.lost(ball);
-            ball.lastBouncePlayer?.gain(ball);
+      if (Geometry.segmentNorm(segmentCenterToBall) > this.checkLength) {
+        // Verify if ball crossing player defense line
+        this.players.forEach(player => {
+          const intersection = Geometry.getIntersection(player.defenseLine, segmentCenterToBall);
+          if (intersection) {
+            intersect = true;
+            const playerBlock = player.block();
+            const rebound = Geometry.getIntersection(playerBlock, segmentCenterToBall);
+            if (rebound) {
+              // Rebound from the defense block
+              ball.bounce(player, rebound, playerBlock);
+            } else {
+              // Goal
+              ballsRemoval.push(ball.key);
+              player.lost(ball);
+              ball.lastBouncePlayer?.gain(ball);
+              changeScoreListener();
+            }
           }
+        });
+        if (!intersect) {
+          // Then simply move ball
+          ball.move();
         }
-      });
-      if (!intersect) {
-        // Then simply move ball
+      } else {
         ball.move();
-        if (ball.checkOutsideBounds()) {
-          // Ball is going outside can happens at corners blocked by mutltiple players, then don't apply penalty
-          ballsRemoval.push(ball.key);
-          ball.lastBouncePlayer?.gain(ball);
-        }
       }
     });
 

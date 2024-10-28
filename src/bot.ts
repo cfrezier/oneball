@@ -40,12 +40,13 @@ export class Bot {
         t = Math.min(Math.max(0, t), 1);
         const projected = [line[0][0] + t * ab[0], line[0][1] + t * ab[1]] as Vector;
         const pprojected = [projected[0] - ball.position[0], projected[1] - ball.position[1]] as Vector;
+        const trajectory = ball.trajectory(CONFIG.VISION_DISTANCE);
         return {
           //ball,
           distance: Geometry.vectorNorm(pprojected),
-          intersection: Geometry.getIntersection(this.player!.defenseLine, ball.trajectory(CONFIG.VISION_DISTANCE)),
+          intersection: Geometry.getIntersection(this.player!.defenseLine, trajectory),
           defenseLine: this.player!.defenseLine,
-          trajectory: ball.trajectory(CONFIG.VISION_DISTANCE),
+          trajectory: trajectory,
           value: ball.key === this.key ? 5 : 1
         };
       });

@@ -16,12 +16,8 @@ export class Ball {
     this.key = key;
     this.size = 3;
     const angle = Math.random() * Math.PI * 2;
-    const speed = 1 + Math.random() * 2;
+    const speed = 0.5 + Math.random();
     this.direction = [speed * Math.cos(angle), speed * Math.sin(angle)];
-  }
-
-  randomVelocity() {
-    return (Math.random() > 0.5 ? 1 : -1) * (1 + Math.random());
   }
 
   trajectory(distance = 1): Segment {
@@ -30,7 +26,6 @@ export class Ball {
 
   bounce(player: Player, intersection: Vector, playerBlock: Segment) {
     this.lastBouncePlayer = player;
-    this.position = intersection;
 
     // Determine new velocity
     const previousVelocity = Geometry.vectorNorm(this.direction);
@@ -44,7 +39,7 @@ export class Ball {
     const dx = Math.cos(angle) * newVelocity;
     const dy = Math.sin(angle) * newVelocity;
     this.direction = Geometry.limitToMax([dx, dy], CONFIG.MAX_SPEED);
-    this.move(0.001);
+    this.move(1);
   }
 
   move(percent = 1) {
@@ -62,5 +57,19 @@ export class Ball {
 
   checkOutsideBounds() {
     return this.position[0] < 0 || this.position[1] < 0 || this.position[0] > CONFIG.GLOBAL_WIDTH || this.position[1] > CONFIG.GLOBAL_HEIGHT;
+  }
+
+  segmentToCenter(marginWidth = 25 / 2 + 15 / 2 + 5) {
+    // Take into account segment width and ball width
+    const xLength = this.position[0] - CONFIG.GLOBAL_WIDTH / 2;
+    const yLength = this.position[1] - CONFIG.GLOBAL_HEIGHT / 2;
+
+    const trajVector = [this.position[0] - CONFIG.GLOBAL_WIDTH / 2, this.position[1] - CONFIG.GLOBAL_HEIGHT / 2] as Vector;
+    const trajAngle = ((Math.acos(Geometry.dot([0, 1], trajVector) / (Geometry.vectorNorm([0, 1]) * Geometry.vectorNorm(trajVector)))));
+
+    const calculatedXLength = xLength + (xLength > 0 ? 1 : -1) * Math.abs(marginWidth * Math.cos(trajAngle));
+    const calculatedYLength = yLength + (xLength > 0 ? 1 : -1) * Math.abs(marginWidth * Math.sin(trajAngle));
+
+    return [[CONFIG.GLOBAL_WIDTH / 2, CONFIG.GLOBAL_HEIGHT / 2], [CONFIG.GLOBAL_WIDTH / 2 + calculatedXLength, CONFIG.GLOBAL_HEIGHT / 2 + calculatedYLength]] as Segment;
   }
 }

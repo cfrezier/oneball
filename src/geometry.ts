@@ -39,6 +39,11 @@ export class Geometry {
     return Math.sqrt(Math.pow(v[0], 2) + Math.pow(v[1], 2))
   }
 
+  static segmentNorm(s: Segment) {
+    const v = [s[1][0] - s[0][0], s[1][1] - s[0][1]] as Vector;
+    return Math.sqrt(Math.pow(v[0], 2) + Math.pow(v[1], 2));
+  }
+
   static reflect(direction: Vector, defenseLine: Segment) {
     // https://stackoverflow.com/questions/1243614/how-do-i-calculate-the-normal-vector-of-a-line-segment
     const normX = (2) * (defenseLine[1][0] - defenseLine[0][0]) / CONFIG.GLOBAL_WIDTH;
