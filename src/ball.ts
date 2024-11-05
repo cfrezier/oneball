@@ -59,17 +59,16 @@ export class Ball {
     return this.position[0] < 0 || this.position[1] < 0 || this.position[0] > CONFIG.GLOBAL_WIDTH || this.position[1] > CONFIG.GLOBAL_HEIGHT;
   }
 
-  segmentToCenter(marginWidth = 25 / 2 + 15 / 2 + 5) {
-    // Take into account segment width and ball width
-    const xLength = this.position[0] - CONFIG.GLOBAL_WIDTH / 2;
-    const yLength = this.position[1] - CONFIG.GLOBAL_HEIGHT / 2;
+  segmentToCenter(marginWidth = 25 / 2 + 15 / 2) {
+    return Ball._segmentToCenter(this.position, marginWidth);
+  }
 
-    const trajVector = [this.position[0] - CONFIG.GLOBAL_WIDTH / 2, this.position[1] - CONFIG.GLOBAL_HEIGHT / 2] as Vector;
-    const trajAngle = ((Math.acos(Geometry.dot([0, 1], trajVector) / (Geometry.vectorNorm([0, 1]) * Geometry.vectorNorm(trajVector)))));
+  static _segmentToCenter(position: Vector, marginWidth = 25 / 2 + 15 / 2) {
+    const getAwayFromCenterVector = [position[0] - CONFIG.GLOBAL_WIDTH / 2, position[1] - CONFIG.GLOBAL_HEIGHT / 2] as Vector;
+    const norm = Geometry.vectorNorm(getAwayFromCenterVector);
+    const percentOfNorm = marginWidth / norm;
+    const gotAwayFromCenterVectorMargin = getAwayFromCenterVector.map(coord => coord * percentOfNorm) as Vector;
 
-    const calculatedXLength = xLength + (xLength > 0 ? 1 : -1) * Math.abs(marginWidth * Math.cos(trajAngle));
-    const calculatedYLength = yLength + (xLength > 0 ? 1 : -1) * Math.abs(marginWidth * Math.sin(trajAngle));
-
-    return [[CONFIG.GLOBAL_WIDTH / 2, CONFIG.GLOBAL_HEIGHT / 2], [CONFIG.GLOBAL_WIDTH / 2 + calculatedXLength, CONFIG.GLOBAL_HEIGHT / 2 + calculatedYLength]] as Segment;
+    return [[CONFIG.GLOBAL_WIDTH / 2, CONFIG.GLOBAL_HEIGHT / 2], [position[0] + gotAwayFromCenterVectorMargin[0], position[1] + gotAwayFromCenterVectorMargin[1]]] as Segment;
   }
 }

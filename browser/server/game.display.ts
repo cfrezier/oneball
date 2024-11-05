@@ -1,5 +1,6 @@
 import {Geometry, Segment, Vector} from "../../src/geometry";
 import {CONFIG} from "../common/config";
+import {Ball} from "../../src/ball";
 
 export class GameDisplay {
   canvas!: HTMLCanvasElement;
@@ -70,7 +71,20 @@ export class GameDisplay {
         this.context.fill();
         this.context.strokeStyle = ball.color;
         this.context.stroke();
+
+        // @ts-ignore
+        if (window.debug) {
+          const line = Ball._segmentToCenter(ball.position);
+
+          this.context.lineWidth = 1
+          this.context.strokeStyle = "#FF0000";
+          this.context.beginPath();
+          this.context.moveTo(...line[0]);
+          this.context.lineTo(...line[1]);
+          this.context.stroke();
+        }
       }
+
     });
   }
 
