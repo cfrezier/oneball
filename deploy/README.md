@@ -14,6 +14,11 @@
 
 ## Déploiement
 
+```bash
+# only by admin
+kubectl apply -f cluster-issuer.yaml
+```
+
 L'image est uniquement disponible avec le tag `latest`.  
 
 ```bash

@@ -1,0 +1,16 @@
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-http
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: support@onepoint.game
+    privateKeySecretRef:
+      name: letsencrypt-http
+    solvers:
+      - selector: {}
+        http01:
+          ingress:
+            class: open-nginx

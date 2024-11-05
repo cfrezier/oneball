@@ -25,10 +25,10 @@ spec:
   ingressClassName: open-nginx
   tls:
     - hosts:
-        - wss.oneball.provoly.net
+        - wss.oneball.onepoint.game
       secretName: oneball-tls
   rules:
-    - host: wss.oneball.provoly.net
+    - host: wss.oneball.onepoint.game
       http:
         paths:
           - path: /

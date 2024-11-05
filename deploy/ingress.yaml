@@ -11,10 +11,10 @@ spec:
   ingressClassName: open-nginx
   tls:
     - hosts:
-        - oneball.provoly.net
+        - oneball.onepoint.game
       secretName: oneball-tls
   rules:
-    - host: oneball.provoly.net
+    - host: oneball.onepoint.game
       http:
         paths:
           - path: /

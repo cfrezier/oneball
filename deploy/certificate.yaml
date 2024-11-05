@@ -6,11 +6,11 @@ metadata:
   namespace: oneball
 spec:
   dnsNames:
-    - oneball.provoly.net
-    - wss.oneball.provoly.net
+    - oneball.onepoint.game
+    - wss.oneball.onepoint.game
   issuerRef:
     kind: ClusterIssuer
-    name: issuer-gandi-provoly-dns
+    name: letsencrypt-http
   privateKey:
     algorithm: RSA
     rotationPolicy: Always
