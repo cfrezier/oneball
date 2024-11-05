@@ -41,7 +41,23 @@ export class GameDisplay {
     this.drawCounter(payload);
     this.drawBalls(payload.state.balls);
     this.drawPlayers(payload.state.players);
+    this.drawDebug(payload.state);
     //this.drawAxes();
+  }
+
+  private drawDebug(payload: any) {
+    payload.balls.forEach((ball: { position: Vector, color: string, size: number }) => {
+      const line = Ball._segmentToCenter(ball.position);
+      // @ts-ignore
+      if (window.debug || Geometry.segmentNorm(line) > Geometry.segmentNorm(payload.players[0].defenseLine) * Math.sqrt(3) / 6) {
+        this.context.lineWidth = 1
+        this.context.strokeStyle = "#FF0000";
+        this.context.beginPath();
+        this.context.moveTo(...line[0]);
+        this.context.lineTo(...line[1]);
+        this.context.stroke();
+      }
+    });
   }
 
   private drawBalls(balls: { position: Vector, color: string, size: number }[]) {
@@ -71,18 +87,6 @@ export class GameDisplay {
         this.context.fill();
         this.context.strokeStyle = ball.color;
         this.context.stroke();
-
-        // @ts-ignore
-        if (window.debug) {
-          const line = Ball._segmentToCenter(ball.position);
-
-          this.context.lineWidth = 1
-          this.context.strokeStyle = "#FF0000";
-          this.context.beginPath();
-          this.context.moveTo(...line[0]);
-          this.context.lineTo(...line[1]);
-          this.context.stroke();
-        }
       }
 
     });

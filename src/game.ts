@@ -61,31 +61,39 @@ export class Game {
 
   execute(changeScoreListener: () => void) {
     const ballsRemoval: string[] = [];
+
+    // rayon du cercle inscrit dans un triangle equilateral
+    const checkLength = Geometry.segmentNorm(this.players[0].defenseLine) * Math.sqrt(3) / 6;
+
     this.balls.forEach(ball => {
       let intersect = false;
       const segmentCenterToBall = ball.segmentToCenter();
 
-      // Verify if ball crossing player defense line
-      this.players.forEach(player => {
-        const intersection = Geometry.getIntersection(player.defenseLine, segmentCenterToBall);
-        if (intersection) {
-          intersect = true;
-          const playerBlock = player.block();
-          const rebound = Geometry.getIntersection(playerBlock, segmentCenterToBall);
-          if (rebound) {
-            // Rebound from the defense block
-            ball.bounce(player, rebound, playerBlock);
-          } else {
-            // Goal
-            ballsRemoval.push(ball.key);
-            player.lost(ball);
-            ball.lastBouncePlayer?.gain(ball);
-            changeScoreListener();
+      if (Geometry.segmentNorm(segmentCenterToBall) > checkLength) {
+        // Verify if ball crossing player defense line
+        this.players.forEach(player => {
+          const intersection = Geometry.getIntersection(player.defenseLine, segmentCenterToBall);
+          if (intersection) {
+            intersect = true;
+            const playerBlock = player.block();
+            const rebound = Geometry.getIntersection(playerBlock, segmentCenterToBall);
+            if (rebound) {
+              // Rebound from the defense block
+              ball.bounce(player, rebound, playerBlock);
+            } else {
+              // Goal
+              ballsRemoval.push(ball.key);
+              player.lost(ball);
+              ball.lastBouncePlayer?.gain(ball);
+              changeScoreListener();
+            }
           }
+        });
+        if (!intersect) {
+          // Then simply move ball
+          ball.move();
         }
-      });
-      if (!intersect) {
-        // Then simply move ball
+      } else {
         ball.move();
       }
     });
