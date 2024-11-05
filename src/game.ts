@@ -63,7 +63,7 @@ export class Game {
     const ballsRemoval: string[] = [];
 
     // rayon du cercle inscrit dans un triangle equilateral
-    const checkLength = Geometry.segmentNorm(this.players[0].defenseLine) * Math.sqrt(3) / 6;
+    const checkLength = Geometry.segmentNorm(this.players[0].defenseLine) / (2 * Math.tan(Math.PI / this.players.length) - 5);
 
     this.balls.forEach(ball => {
       let intersect = false;

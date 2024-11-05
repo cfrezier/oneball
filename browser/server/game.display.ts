@@ -41,15 +41,17 @@ export class GameDisplay {
     this.drawCounter(payload);
     this.drawBalls(payload.state.balls);
     this.drawPlayers(payload.state.players);
-    this.drawDebug(payload.state);
+    // @ts-ignore
+    if (window.debug) {
+      this.drawDebug(payload.state);
+    }
     //this.drawAxes();
   }
 
   private drawDebug(payload: any) {
     payload.balls.forEach((ball: { position: Vector, color: string, size: number }) => {
       const line = Ball._segmentToCenter(ball.position);
-      // @ts-ignore
-      if (window.debug || Geometry.segmentNorm(line) > Geometry.segmentNorm(payload.players[0].defenseLine) * Math.sqrt(3) / 6) {
+      if (Geometry.segmentNorm(line) > Geometry.segmentNorm(payload.players[0].defenseLine) / (2 * Math.tan(Math.PI / payload.players.length)) - 5) {
         this.context.lineWidth = 1
         this.context.strokeStyle = "#FF0000";
         this.context.beginPath();
