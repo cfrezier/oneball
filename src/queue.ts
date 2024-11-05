@@ -205,4 +205,11 @@ export class Queue {
   doneWaiting() {
     this.players.forEach(pl => pl.stopWait());
   }
+
+  clear() {
+    this.players.forEach(player => player.canQueue());
+    this.nextGame!.players = [];
+    this.sendQueueUpdate();
+    console.log('Queue cleared');
+  }
 }

@@ -55,10 +55,6 @@ export class Ball {
     };
   }
 
-  checkOutsideBounds() {
-    return this.position[0] < 0 || this.position[1] < 0 || this.position[0] > CONFIG.GLOBAL_WIDTH || this.position[1] > CONFIG.GLOBAL_HEIGHT;
-  }
-
   segmentToCenter(marginWidth = 25 / 2 + 15 / 2) {
     return Ball._segmentToCenter(this.position, marginWidth);
   }

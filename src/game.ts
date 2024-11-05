@@ -25,6 +25,7 @@ export class Game {
         this.players.forEach((player, idx, arr) => player.init(idx, arr));
         player.queued();
         this.createBalls();
+        this.checkForStartedBelow1Min();
       }
       if (this.players.length > (CONFIG.MIN_PLAYERS - 1) && !this.startDate) {
         console.log(`Starting in ${CONFIG.QUEUE_TIME}s`);
@@ -37,7 +38,8 @@ export class Game {
     }
   }
 
-  start() {
+  start(retry = 0) {
+    this.clearCheckTimer();
     this.ready = true;
     if (this.players.length >= CONFIG.MIN_PLAYERS) {
       this.started = true;
@@ -49,9 +51,15 @@ export class Game {
       console.log(`Not enough players... retry in ${CONFIG.RETRY_TIME}s`);
       this.startDate = new Date().getTime() + 1000 * CONFIG.QUEUE_TIME;
       this.queue.sendQueueUpdate();
-      setTimeout(() => {
-        this.start();
-      }, CONFIG.RETRY_TIME * 1000);
+      if (retry > 3) {
+        console.log(`Clearing queue.`);
+        this.queue.clear();
+      } else {
+        setTimeout(() => {
+          console.log(`Retrying...`);
+          this.start(retry + 1);
+        }, CONFIG.RETRY_TIME * 1000);
+      }
     }
   }
 
@@ -126,5 +134,22 @@ export class Game {
     const elapsed = Math.round(new Date().getTime() - (this.startDate ?? 0)) / 1000;
     console.log('elapsed', elapsed);
     this.players.forEach((player) => player.reward(elapsed));
+  }
+
+  checkTimer?: any;
+
+  private checkForStartedBelow1Min() {
+    this.clearCheckTimer();
+    console.log('...setting check timer');
+    this.checkTimer = setTimeout(() => {
+      this.queue.clear();
+    }, 60000);
+  }
+
+  clearCheckTimer() {
+    if (this.checkTimer) {
+      clearTimeout(this.checkTimer);
+      console.log('...clearing check timer');
+    }
   }
 }
