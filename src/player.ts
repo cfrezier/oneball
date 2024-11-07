@@ -119,7 +119,8 @@ export class Player {
       points: this.points,
       total: this.totalPoints + this.points,
       block: this.block(),
-      displayBlock: this.displayBlock()
+      displayBlock: this.displayBlock(),
+      key: this.key
     };
   }
 

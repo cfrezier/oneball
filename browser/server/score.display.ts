@@ -37,6 +37,7 @@ export class ScoreDisplay {
     node.classList.add('score-item');
     const playerName = document.createElement('p');
     playerName.innerText = player.name;
+    playerName.title = player.key;
     const playerValue = document.createElement('p');
     playerValue.innerText = player[type];
     node.appendChild(playerName);
