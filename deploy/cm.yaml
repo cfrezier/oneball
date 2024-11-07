@@ -14,7 +14,7 @@ data:
       "GLOBAL_HEIGHT": 2000,
       "GLOBAL_WIDTH": 2000,
       "ACCELERATION_FACTOR": 1.5,
-      "MAX_PLAYERS": 8,
+      "MAX_PLAYERS": 16,
       "MIN_PLAYERS": 3,
       "QUEUE_TIME": 10,
       "RETRY_TIME": 10,
