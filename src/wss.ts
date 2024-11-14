@@ -5,7 +5,7 @@ import {CONFIG} from "../browser/common/config";
 
 const wss = () => {
   const wss = new WebSocket.Server({port: CONFIG.WSS_PORT});
-  const queue = new Queue(CONFIG.PATH as string, CONFIG.BOTS);
+  const queue = new Queue(CONFIG.PATH as string, CONFIG.STATS_PATH as string, CONFIG.BOTS);
 
   wss.on('connection', (ws) => {
     console.log('New client');
