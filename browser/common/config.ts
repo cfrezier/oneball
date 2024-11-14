@@ -1,6 +1,7 @@
 export const CONFIG = {
   // TODO Allow this to be defined as variable environment
   PATH: '/tmp/oneball-save.json',
+  STATS_PATH: '/tmp/oneball-stats.json',
   MAX_MOVE_CHANGE_PERCENT: 0.01,
   VISION_DISTANCE: 400,
   GAME_LOOP_MS: 5,

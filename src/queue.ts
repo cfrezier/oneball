@@ -12,15 +12,30 @@ export class Queue {
   currentGame?: Game;
   servers: (WebSocket | undefined)[] = [];
   path: string;
+  statsPath: string;
   bots: Bot[];
+  stats = {
+    games: 0,
+    elapsed: 0,
+  }
 
-  constructor(path: string, bots = 0) {
+  constructor(path: string, statsPath: string, bots = 0) {
     this.path = path;
     fs.readFile(this.path, 'utf8', (err, data) => {
       if (err) {
-        console.error('Cannont initialize', err);
+        console.error('No previous save. Starting with empty scores.', err);
       } else {
         this.players = JSON.parse(data).map((playerObj: Player) => Player.from(playerObj));
+        console.log(`Previous save loaded, with ${this.players.length} players known.`);
+      }
+    });
+    this.statsPath = statsPath;
+    fs.readFile(this.statsPath, 'utf8', (err, data) => {
+      if (err) {
+        console.error('No previous stats. Starting with empty stats.', err);
+      } else {
+        this.stats = JSON.parse(data);
+        console.log(`Previous stats loaded: ${JSON.stringify(this.stats)}`);
       }
     });
     this.bots = [];
@@ -122,7 +137,7 @@ export class Queue {
       this.askBotInputs();
     } else {
       console.log("Game finished.");
-      this.currentGame!.reward();
+      this.rewardAndUpdateStats();
       this.currentGame = undefined;
       this.sendHighScoreToServer();
       this.sendGameToServer();
@@ -182,7 +197,14 @@ export class Queue {
       if (!err) {
         console.log(`State saved under ${this.path}`);
       } else {
-        console.log('Cannot save', err);
+        console.log('Cannot save game state', err);
+      }
+    });
+    fs.writeFile(this.statsPath, JSON.stringify(this.stats), 'utf8', (err) => {
+      if (!err) {
+        console.log(`State saved under ${this.statsPath}`);
+      } else {
+        console.log('Cannot save stats', err);
       }
     });
   }
@@ -211,5 +233,10 @@ export class Queue {
     this.nextGame!.players = [];
     this.sendQueueUpdate();
     console.log('Queue cleared');
+  }
+
+  private rewardAndUpdateStats() {
+    this.stats.elapsed += this.currentGame!.reward();
+    this.stats.games++;
   }
 }
