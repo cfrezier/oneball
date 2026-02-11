@@ -23,7 +23,7 @@ jobs:
         uses: aevea/action-kaniko@v0.12.0
         with:
           registry: ${{ vars.REGISTRY_SERVER }}
-          image: provoly/oneball
+          image: pole-edition/oneball
           tag: latest
           username: ${{ secrets.REGISTRY_USER }}
           password: ${{ secrets.REGISTRY_PASSWORD }}

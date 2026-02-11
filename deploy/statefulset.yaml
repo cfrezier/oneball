@@ -27,7 +27,7 @@ spec:
         - name: regcred
       containers:
         - name: app
-          image: "dh2wltsh.gra7.container-registry.ovh.net/provoly/oneball:latest"
+          image: "dh2wltsh.gra7.container-registry.ovh.net/pole-edition/oneball:latest"
           volumeMounts:
             - name: data
               mountPath: /app/backup
